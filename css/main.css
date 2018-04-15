@@ -1,0 +1,29 @@
+@CHARSET "UTF-8";
+/********************************************
+	General application.
+*********************************************/
+html {
+	position: relative;
+	min-height: 100%;
+	width: 100%;
+	font-size: small;
+	background-color: #ddd;
+}
+body {
+	font-family: Helvetica, 'Open Sans', sans-serif;
+	margin: 0;
+	line-height: normal;
+	font-size: medium;
+	color: black;
+	background-color: #ddd;
+}
+
+main { display: block; } /* IE */
+
+a, 
+a:hover, 
+a:focus { text-decoration: none; } /* Poistaa alleviivauksen linkeistä. Näyttää siistimmältä. */
+
+h1 { font-size: 1.6em; font-weight: bold; }
+h2 { font-size: 1.4em; }
+h3 { font-size: 1.17em; font-weight: bold; }
