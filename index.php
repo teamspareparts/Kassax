@@ -5,6 +5,7 @@ $css_version = filemtime( 'css/login.css' );
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="icon" type="image/jpg" href="img/favicon.jpg"/>
 	<link rel="stylesheet" type="text/css" href="css/login.css?v=<?= $css_version ?>">
 	<title>Login</title>
 </head>
