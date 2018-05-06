@@ -24,7 +24,7 @@ foreach ( $db_file as $sql ) {
 
 // Yritys
 $db->query(
-	"INSERT INTO yritys (y_tunnus, yritystunniste, nimi) VALUES (?,?,?)",
+	"INSERT IGNORE INTO yritys (y_tunnus, yritystunniste, nimi) VALUES (?,?,?)",
 	[   $config['Admin']['y_tunnus'],
 		$config['Admin']['y_yritystunniste'],
 		$config['Admin']['y_nimi']
@@ -33,7 +33,7 @@ $db->query(
 // Admin tunnukset
 // TODO: Kesken
 /*
-$db->prepare_stmt( "INSERT INTO kayttaja (yritys_id, user, pass) VALUES (1, ?, ?)");
+$db->prepare_stmt( "INSERT IGNORE INTO kayttaja (yritys_id, user, pass) VALUES (1, ?, ?)");
 for ( $i=0; $i<count( $config['Admin']['kayttajatunnus']); $i++ ) {
 	$db->run_prepared_stmt([
 		$config['Admin']['kayttajatunnus'][$i],
