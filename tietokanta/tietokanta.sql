@@ -1,3 +1,13 @@
+/*
+ColumnType  | Max Value (signed/unsigned)
+
+  TINYINT   |   127 / 255
+ SMALLINT   |   32767 / 65535
+MEDIUMINT   |   8388607 / 16777215
+      INT   |   2147483647 / 4294967295
+   BIGINT   |   9223372036854775807 / 18446744073709551615
+*/
+
 CREATE TABLE IF NOT EXISTS yritys (
   id smallint UNSIGNED NOT NULL AUTO_INCREMENT, -- PK
   y_tunnus varchar(9) NOT NULL,  -- UK
@@ -43,7 +53,7 @@ CREATE TABLE IF NOT EXISTS toimittaja_pankkitili (
   pankkitili VARCHAR(255) NOT NULL COMMENT '',
   PRIMARY KEY (toimittaja_id), UNIQUE KEY (toimittaja_id, pankkitili),
   CONSTRAINT fk_toimittajaPankkitili_yritys FOREIGN KEY (toimittaja_id) REFERENCES toimittaja(id)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1 COMMENT 'Toimittajan pankkitili; One-to-Many';
+) DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1 COMMENT 'Toimittajan pankkitili, One-to-Many';
 
 /**
 Taulu joka linkittää yrityksiä jotenkin? KAi
@@ -83,17 +93,7 @@ CREATE TABLE IF NOT EXISTS tuote_ostotarjoushinta (
   yritys_id smallint UNSIGNED NOT NULL, -- FK
   ostotarjoushinta decimal(11,4),
   pvm_alkaa timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  pvm_loppuu timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP + INTERVAL 6 MONTH,
+  pvm_loppuu timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (tuote_id, yritys_id),
   CONSTRAINT fk_tuoteOstotarjoushinta_yritys FOREIGN KEY (yritys_id) REFERENCES yritys(id)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1;
-
-/*
-ColumnType  | Max Value (signed/unsigned)
-
-  TINYINT   |   127 / 255
- SMALLINT   |   32767 / 65535
-MEDIUMINT   |   8388607 / 16777215
-      INT   |   2147483647 / 4294967295
-   BIGINT   |   9223372036854775807 / 18446744073709551615
-*/
