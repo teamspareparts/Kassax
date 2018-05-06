@@ -22,4 +22,24 @@ foreach ( $db_file as $sql ) {
 	}
 }
 
+// Yritys
+$db->query(
+	"INSERT INTO yritys (y_tunnus, yritystunniste, nimi) VALUES (?,?,?)",
+	[   $config['Admin']['y_tunnus'],
+		$config['Admin']['y_yritystunniste'],
+		$config['Admin']['y_nimi']
+	]);
+
+// Admin tunnukset
+// TODO: Kesken
+/*
+$db->prepare_stmt( "INSERT INTO kayttaja (yritys_id, user, pass) VALUES (1, ?, ?)");
+for ( $i=0; $i<count( $config['Admin']['kayttajatunnus']); $i++ ) {
+	$db->run_prepared_stmt([
+		$config['Admin']['kayttajatunnus'][$i],
+		password_hash( $config['Admin']['salasana'][$i], PASSWORD_DEFAULT)
+	]);
+}
+*/
+
 echo '<p>Tietokannan asennus on nyt suoritettu.</p>';
