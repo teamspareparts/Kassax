@@ -1,12 +1,13 @@
 @CHARSET "UTF-8";
 /********************************************
-	General application.
+	General application
 *********************************************/
 html {
 	position: relative;
 	min-height: 100%;
 	width: 100%;
-	font-size: small;
+    font-size: 1em;
+    line-height: 1.4;
 	background-color: #ddd;
 }
 body {
@@ -27,3 +28,50 @@ a:focus { text-decoration: none; } /* Poistaa alleviivauksen linkeistä. Näytt�
 h1 { font-size: 1.6em; font-weight: bold; }
 h2 { font-size: 1.4em; }
 h3 { font-size: 1.17em; font-weight: bold; }
+
+/********************************************
+	From HTML5 Boilerplate main.css
+*********************************************/
+
+/*
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
+ * Vendor-prefixed and regular ::selection selectors cannot be combined:
+ * https://stackoverflow.com/a/16982510/7133471
+ *
+ * Customize the background color to match your design.
+ */
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+/*
+ * A better looking default horizontal rule
+ */
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+/*
+ * Remove default fieldset styles.
+ */
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+/*
+ * Allow only vertical resizing of textareas.
+ */
+textarea {
+    resize: vertical;
+}

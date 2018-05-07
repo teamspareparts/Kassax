@@ -43,8 +43,9 @@ legend {
 	background-color: lightsteelblue;
 	border-radius: 3px;
 	padding: 5px 20px;
-	width: 60%;
+	width: 63%;
 	text-align: center;
+	margin: auto;
 }
 
 input {
