@@ -5,9 +5,9 @@ $css_version = filemtime( 'css/login.css' );
 <html>
 <head>
 	<meta charset="UTF-8">
+	<title>Login</title>
 	<link rel="icon" type="image/jpg" href="img/favicon.jpg"/>
 	<link rel="stylesheet" type="text/css" href="css/login.css?v=<?= $css_version ?>">
-	<title>Login</title>
 </head>
 <body>
 <main class="login_container">
@@ -17,7 +17,7 @@ $css_version = filemtime( 'css/login.css' );
 		<form action="login_check.php" method="post" accept-charset="utf-8">
 
 			<label>Yritystunnus:
-				<input type="text" name="yritys" placeholder="Yrityksen tunnus" id="login_yritys"
+				<input type="text" name="yritys" placeholder="Yrityksen kirjautumistunnus" id="login_yritys"
 				       required autofocus disabled>
 			</label>
 
@@ -35,21 +35,13 @@ $css_version = filemtime( 'css/login.css' );
 
 		</form>
 	</fieldset>
-
-	<fieldset class="hidden"><legend>Unohditko salasanasi?</legend>
-		<form action="login_check.php" method="post" accept-charset="utf-8">
-
-			<label>Sähköposti:
-				<input type="email" name="email" placeholder="Nimi @ Email.com" pattern=".{3,255}$"
-					   required autofocus>
-			</label>
-
-			<input type="hidden" name="mode" value="password_reset">
-			<input type="submit" value="Uusi salasana">
-
-		</form>
-	</fieldset>
 </main>
+
+<footer class="footer">
+	<span>
+		Osax Oy
+	</span>
+</footer>
 
 <script>
 	let update = 0;
