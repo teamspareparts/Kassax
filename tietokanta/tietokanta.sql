@@ -56,12 +56,18 @@ CREATE TABLE IF NOT EXISTS toimittaja_pankkitili (
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1 COMMENT 'Toimittajan pankkitili, One-to-Many';
 
 /**
-Taulu joka linkittää yrityksiä jotenkin? KAi
+ *
+ *  Taulu joka linkittää yrityksiä jotenkin? KAi
+ *
  */
 
 CREATE TABLE IF NOT EXISTS kayttaja (
   id smallint UNSIGNED NOT NULL AUTO_INCREMENT, -- PK
   yritys_id smallint UNSIGNED NOT NULL, -- FK
+  salasana_hajautus varchar(255) NOT NULL,
+  salasana_vaihdettu timestamp DEFAULT CURRENT_TIMESTAMP,
+  salasana_uusittava boolean NOT NULL DEFAULT 0,
+  viime_kirjautuminen timestamp NULL DEFAULT NULL,
   PRIMARY KEY (id),
   CONSTRAINT fk_kayttaja_yritys FOREIGN KEY (yritys_id) REFERENCES yritys(id)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1;
