@@ -8,52 +8,72 @@ MEDIUMINT   |   8388607 / 16777215
    BIGINT   |   9223372036854775807 / 18446744073709551615
 */
 
-CREATE TABLE IF NOT EXISTS yritys (
-  id smallint UNSIGNED NOT NULL AUTO_INCREMENT, -- PK
-  y_tunnus varchar(9) NOT NULL,  -- UK
-  yritystunniste varchar(50) NOT NULL COMMENT 'Kirjautumista varten', -- UK
-  nimi varchar(255) NOT NULL,
-  katuosoite VARCHAR(255),
-  postinumero varchar(10),
-  postitoimipaikka VARCHAR(255),
-  maa VARCHAR(255),
-  puhelin varchar(20),
-  www_url VARCHAR(255) COMMENT 'Yrityksen WWW-osoite',
-  email VARCHAR(255),
-  logo VARCHAR(255) COMMENT 'Tiedosto-polku',
-  PRIMARY KEY (id),
-  UNIQUE KEY (y_tunnus),
-  UNIQUE KEY (yritystunniste)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1;
+create table if not exists yritys (
+	id               smallint unsigned not null auto_increment, -- PK
+	y_tunnus         varchar(9)        not null, -- UK
+	yritystunniste   varchar(50)       not null	comment 'Kirjautumista varten', -- UK
+	nimi             varchar(255)      not null,
+	katuosoite       varchar(255),
+	postinumero      varchar(10),
+	postitoimipaikka varchar(255),
+	maa              varchar(255),
+	puhelin          varchar(20),
+	www_url          varchar(255) comment 'Yrityksen WWW-osoite',
+	email            varchar(255),
+	logo             varchar(255) comment 'Tiedosto-polku',
+	aktiivinen       boolean           not null default true,
+	yllapitaja       boolean           not null default false,
+	primary key (id),
+	unique key (y_tunnus),
+	unique key (yritystunniste)
+)
+	default charset = utf8
+	collate = utf8_swedish_ci
+	auto_increment = 1;
 
-CREATE TABLE IF NOT EXISTS yritys_pankkitili (
-  yritys_id smallint UNSIGNED NOT NULL, -- PK, FK
-  pankkitili VARCHAR(255) NOT NULL COMMENT '',
-  PRIMARY KEY (yritys_id), UNIQUE KEY (yritys_id, pankkitili),
-  CONSTRAINT fk_yritysPankkitili_yritys FOREIGN KEY (yritys_id) REFERENCES yritys(id)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1 COMMENT 'Yrityksen pankkitili';
+create table if not exists yritys_pankkitili (
+	yritys_id  smallint unsigned not null, -- PK, FK
+	pankkitili varchar(255)      not null
+	comment '',
+	primary key (yritys_id),
+	unique key (yritys_id, pankkitili),
+	constraint fk_yrityspankkitili_yritys foreign key (yritys_id) references yritys (id)
+)
+	default charset = utf8
+	collate = utf8_swedish_ci
+	auto_increment = 1
+	comment 'Yrityksen pankkitili';
 
 
-CREATE TABLE IF NOT EXISTS toimittaja (
-  id smallint UNSIGNED NOT NULL AUTO_INCREMENT, -- PK
-  nimi varchar(255) NOT NULL,
-  katuosoite VARCHAR(255),
-  postinumero varchar(10),
-  postitoimipaikka VARCHAR(255),
-  maa VARCHAR(255),
-  www_url VARCHAR(255) COMMENT 'Yrityksen WWW-osoite',
-  tl_www_url VARCHAR(255) COMMENT 'Tuoteluettelo WWW-URL',
-  tl_tunnus VARCHAR(255) COMMENT 'Tuoteluettelo käyttäjätunnus',
-  tl_salasana VARCHAR(255) COMMENT 'Tuoteluettelo salasana',
-  PRIMARY KEY (id)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1;
+create table if not exists toimittaja (
+	id               smallint unsigned not null auto_increment, -- PK
+	nimi             varchar(255)      not null,
+	katuosoite       varchar(255),
+	postinumero      varchar(10),
+	postitoimipaikka varchar(255),
+	maa              varchar(255),
+	www_url          varchar(255) comment 'Yrityksen WWW-osoite',
+	tl_www_url       varchar(255) comment 'Tuoteluettelo WWW-URL',
+	tl_tunnus        varchar(255) comment 'Tuoteluettelo käyttäjätunnus',
+	tl_salasana      varchar(255) comment 'Tuoteluettelo salasana',
+	primary key (id)
+)
+	default charset = utf8
+	collate = utf8_swedish_ci
+	auto_increment = 1;
 
-CREATE TABLE IF NOT EXISTS toimittaja_pankkitili (
-  toimittaja_id smallint UNSIGNED NOT NULL, -- PK, FK
-  pankkitili VARCHAR(255) NOT NULL COMMENT '',
-  PRIMARY KEY (toimittaja_id), UNIQUE KEY (toimittaja_id, pankkitili),
-  CONSTRAINT fk_toimittajaPankkitili_yritys FOREIGN KEY (toimittaja_id) REFERENCES toimittaja(id)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1 COMMENT 'Toimittajan pankkitili, One-to-Many';
+create table if not exists toimittaja_pankkitili (
+	toimittaja_id smallint unsigned not null, -- PK, FK
+	pankkitili    varchar(255)      not null
+	comment '',
+	primary key (toimittaja_id),
+	unique key (toimittaja_id, pankkitili),
+	constraint fk_toimittajapankkitili_yritys foreign key (toimittaja_id) references toimittaja (id)
+)
+	default charset = utf8
+	collate = utf8_swedish_ci
+	auto_increment = 1
+	comment 'Toimittajan pankkitili, One-to-Many';
 
 /**
  *
@@ -61,45 +81,61 @@ CREATE TABLE IF NOT EXISTS toimittaja_pankkitili (
  *
  */
 
-CREATE TABLE IF NOT EXISTS kayttaja (
-  id smallint UNSIGNED NOT NULL AUTO_INCREMENT, -- PK
-  yritys_id smallint UNSIGNED NOT NULL, -- FK
-  salasana_hajautus varchar(255) NOT NULL,
-  salasana_vaihdettu timestamp DEFAULT CURRENT_TIMESTAMP,
-  salasana_uusittava boolean NOT NULL DEFAULT 0,
-  viime_kirjautuminen timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT fk_kayttaja_yritys FOREIGN KEY (yritys_id) REFERENCES yritys(id)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1;
+create table if not exists kayttaja (
+	id                  smallint unsigned not null auto_increment, -- PK
+	yritys_id           smallint unsigned not null, -- FK
+	kayttajatunnus      varchar(255)      not null comment 'Kirjautumista varten',
+	salasana_hajautus   varchar(255)      not null comment 'Hashed & salted',
+	salasana_vaihdettu  timestamp                  default CURRENT_TIMESTAMP comment 'Milloin viimeksi salasana vaihdettu',
+	salasana_uusittava  boolean           not null default 0,
+	viime_kirjautuminen timestamp         null     default null,
+	aktiivinen          boolean           not null default true,
+	kieli               tinyint           not null default 1
+	comment 'Käyttäjän valitsema sivuston kieli',
+	primary key (id),
+	constraint fk_kayttaja_yritys foreign key (yritys_id) references yritys (id)
+)
+	default charset = utf8
+	collate = utf8_swedish_ci
+	auto_increment = 1;
 
-CREATE TABLE IF NOT EXISTS tuote (
-  id smallint UNSIGNED NOT NULL AUTO_INCREMENT, -- PK
-  tuotekoodi varchar(255) NOT NULL,
-  nimi varchar(255),
-  toimittaja_tuoteryhma tinyint,
-  toimittaja_aleryhma tinyint,
-  toimittaja_svh decimal(11,4) comment 'Suositusvähittäishinta',
-  toimittaja_nto decimal(11,4) comment 'nettohinta, tuotteen ostohinta',
-  myynti_yksikko varchar(10) comment 'litra, kg, kpl, metri...',
-  EAN_koodi varchar(255),
-  ostotarjoushinta decimal(11,4),
-  PRIMARY KEY (id)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1;
+create table if not exists tuote (
+	id                    smallint unsigned not null auto_increment, -- PK
+	tuotekoodi            varchar(255)      not null,
+	nimi                  varchar(255),
+	toimittaja_tuoteryhma tinyint,
+	toimittaja_aleryhma   tinyint,
+	toimittaja_svh        decimal(11, 4) comment 'Suositusvähittäishinta',
+	toimittaja_nto        decimal(11, 4) comment 'nettohinta, tuotteen ostohinta',
+	myynti_yksikko        varchar(10) comment 'litra, kg, kpl, metri...',
+	ean_koodi             varchar(255),
+	ostotarjoushinta      decimal(11, 4),
+	primary key (id)
+)
+	default charset = utf8
+	collate = utf8_swedish_ci
+	auto_increment = 1;
 
-CREATE TABLE IF NOT EXISTS toimittaja_nto (
-  tuote_id smallint UNSIGNED NOT NULL, -- PK FK
-  yritys_id smallint UNSIGNED NOT NULL, -- PK FK
-  toimittaja_nto smallint UNSIGNED NOT NULL, -- FK
-  PRIMARY KEY (tuote_id, yritys_id),
-  CONSTRAINT fk_toimittajaNTO_yritys FOREIGN KEY (yritys_id) REFERENCES yritys(id)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1;
+create table if not exists toimittaja_nto (
+	tuote_id       smallint unsigned not null, -- PK FK
+	yritys_id      smallint unsigned not null, -- PK FK
+	toimittaja_nto smallint unsigned not null, -- FK
+	primary key (tuote_id, yritys_id),
+	constraint fk_toimittajanto_yritys foreign key (yritys_id) references yritys (id)
+)
+	default charset = utf8
+	collate = utf8_swedish_ci
+	auto_increment = 1;
 
-CREATE TABLE IF NOT EXISTS tuote_ostotarjoushinta (
-  tuote_id smallint UNSIGNED NOT NULL, -- FK
-  yritys_id smallint UNSIGNED NOT NULL, -- FK
-  ostotarjoushinta decimal(11,4),
-  pvm_alkaa timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  pvm_loppuu timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (tuote_id, yritys_id),
-  CONSTRAINT fk_tuoteOstotarjoushinta_yritys FOREIGN KEY (yritys_id) REFERENCES yritys(id)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci AUTO_INCREMENT=1;
+create table if not exists tuote_ostotarjoushinta (
+	tuote_id         smallint unsigned not null, -- FK
+	yritys_id        smallint unsigned not null, -- FK
+	ostotarjoushinta decimal(11, 4),
+	pvm_alkaa        timestamp         not null default CURRENT_TIMESTAMP,
+	pvm_loppuu       timestamp         not null default CURRENT_TIMESTAMP,
+	primary key (tuote_id, yritys_id),
+	constraint fk_tuoteostotarjoushinta_yritys foreign key (yritys_id) references yritys (id)
+)
+	default charset = utf8
+	collate = utf8_swedish_ci
+	auto_increment = 1;
