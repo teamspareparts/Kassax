@@ -5,6 +5,7 @@
 html {
 	position: relative;
 	min-height: 100%;
+	height: 100%;
 	width: 100%;
     font-size: 1em;
     line-height: 1.4;
@@ -29,9 +30,27 @@ h1 { font-size: 1.6em; font-weight: bold; }
 h2 { font-size: 1.4em; }
 h3 { font-size: 1.17em; font-weight: bold; }
 
-/********************************************
-	From HTML5 Boilerplate main.css
-*********************************************/
+/* A better looking default horizontal rule */
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #ccc;
+	margin: 1em 0;
+	padding: 0;
+}
+
+/* Remove default fieldset styles. */
+fieldset {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+/* Allow only vertical resizing of textareas. */
+textarea {
+	resize: vertical;
+}
 
 /*
  * Remove text-shadow in selection highlight:
@@ -43,35 +62,10 @@ h3 { font-size: 1.17em; font-weight: bold; }
  * Customize the background color to match your design.
  */
 ::-moz-selection {
-    background: #b3d4fc;
-    text-shadow: none;
+	background: #b3d4fc;
+	text-shadow: none;
 }
 ::selection {
-    background: #b3d4fc;
-    text-shadow: none;
-}
-/*
- * A better looking default horizontal rule
- */
-hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 1em 0;
-    padding: 0;
-}
-/*
- * Remove default fieldset styles.
- */
-fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-/*
- * Allow only vertical resizing of textareas.
- */
-textarea {
-    resize: vertical;
+	background: #b3d4fc;
+	text-shadow: none;
 }
