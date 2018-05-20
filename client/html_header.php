@@ -8,7 +8,7 @@
 
 	<section class="header_top" id="headertop">
 		<div id="head_logo">
-			<a href="./index.php"> <img src="./img/kassax_logo.jpg" align="left"> </a>
+			<a href="./index.php"> <img src="./../img/kassax_logo.jpg" align="left"> </a>
 		</div>
 
 		<div id="head_info">
