@@ -90,7 +90,7 @@ create table if not exists kayttaja (
 	salasana_uusittava  boolean           not null default 0,
 	viime_kirjautuminen timestamp         null     default null,
 	aktiivinen          boolean           not null default true,
-	kieli               tinyint           not null default 1
+	kieli               tinyint           not null default 1 comment 'varchar(3/2)? e.g. "FI/FIN", "EN/ENG", virallinen language code?'
 	comment 'Käyttäjän valitsema sivuston kieli',
 	primary key (id),
 	constraint fk_kayttaja_yritys foreign key (yritys_id) references yritys (id)
