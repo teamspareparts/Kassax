@@ -72,7 +72,7 @@ if ( $mode === "login" ) {
 			WHERE kayttajatunnus = ? AND yritys_id = ?
 			LIMIT 1";
 	/** @var User $user */
-	$user = $db->query( $sql, [ $kayttaja, ], false, null, 'User' );
+	$user = $db->query( $sql, [ $kayttaja, $yritys->id ], false, null, 'User' );
 
 	if ( $yritys AND $user ) {
 		beginning_user_checks( $user, $password );
@@ -97,9 +97,9 @@ if ( $mode === "login" ) {
 
 		$redirect_url = !empty( $_SESSION[ 'redirect_url' ] )
 			? $_SESSION[ 'redirect_url' ]
-			: (($user->yllapitaja)
+			: ( ($user->yllapitaja)
 				? './admin/'
-				: './client/');
+				: './client/' );
 
 		header( "Location:{$redirect_url}" );
 		exit;
