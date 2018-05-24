@@ -35,7 +35,9 @@
 
 	<nav class="navbar navbar-expand-md navbar-light bg-light">
 		<!-- Brand & hamburger-icon -->
-		<a class="navbar-brand" href="./index.php">Kassax</a>
+		<a class="navbar-brand" href="./index.php">
+			<i class="material-icons" style="margin-top: -3px;">home</i>
+		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
