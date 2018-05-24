@@ -19,13 +19,15 @@ class DByhteys {
 	 *    _ERRMODE : Miten PDO-yhteys toimii virhetilanteissa.<br>
 	 *    _DEF_FETCH_M : Mitä PDO-haku palauttaa defaultina (arrayn, objektin, ...)<br>
 	 *    _EMUL_PREP : {@link https://phpdelusions.net/pdo#emulation}
+	 * MYSQL_ATTR_FOUND_ROWS : Palauttaa number of found rows
 	 * @var array
 	 */
 	protected $pdo_options = [
 		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 		PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
 		PDO::ATTR_EMULATE_PREPARES => false,
-		PDO::MYSQL_ATTR_FOUND_ROWS => true ];
+		PDO::MYSQL_ATTR_FOUND_ROWS => true,
+	];
 	/**
 	 * Säilyttää yhdeyten, jota kaikki metodit käyttävät
 	 * @var PDO object
@@ -76,11 +78,7 @@ class DByhteys {
 	 *                               lähetetään tietokannalle.
 	 * @param bool   $fetchAllRows   [optional], default = false <p>
 	 *                               Haetaanko kaikki rivit, vai vain yksi.
-	 * @param int    $returnType     [optional], default = null <p>
-	 *                               Missä muodossa haluat tiedot palautettavan. Käyttää PDO-luokan
-	 *                               PDO::FETCH_* constant-muuttujia. <br> Default vaihtelee hakutavan mukaan.
 	 * @param string $className      [optional] <p> Jos haluat jonkin tietyn luokan olion. <p>
-	 *                               Huom: $returnType ei tarvitse olla määritelty.<p>
 	 *                               Huom: haun muuttujien nimet pitää olla samat kuin luokan muuttujat.
 	 *
 	 * @return array|int|bool|stdClass <p> Palauttaa stdClass[], jos SELECT ja FETCH_ALL==true.
@@ -88,18 +86,17 @@ class DByhteys {
 	 *                               Palauttaa <code>$stmt->rowCount</code> (muutettujen rivien määrä), jos esim.
 	 *                               INSERT tai DELETE.<br>
 	 */
-	public function query( string $query, array $values = [], bool $fetchAllRows = false,
-						   int $returnType = null, string $className = '' ) {
+	public function query( string $query, array $values = [], bool $fetchAllRows = false, string $className = '' ) {
 		// Katsotaan mikä hakutyyppi kyseessä, jotta voidaan palauttaa hyödyllinen vastaus tyypin mukaan.
-		$q_type = substr( ltrim( $query ), 0, 6 ); // Kaikki haku-tyypit ovat 6 merkkiä pitkiä. Todella käytännöllistä.
+		$query_type = strtolower( substr( ltrim( $query ), 0, 6 ) ); // Kaikki haku-tyypit ovat 6 merkkiä pitkiä. Todella käytännöllistä.
 
 		$stmt = $this->connection->prepare( $query );    // Valmistellaan query
 		$stmt->execute( $values ); //Toteutetaan query varsinaisilla arvoilla
 
-		if ( $q_type === "SELECT" ) {
+		if ( $query_type === "select" ) {
 			if ( $fetchAllRows ) {
 				if ( empty( $className ) ) {
-					return $stmt->fetchAll( $returnType ?? PDO::FETCH_OBJ );
+					return $stmt->fetchAll();
 				}
 				else { // Palautetaan tietyn luokan olioina
 					return $stmt->fetchAll( PDO::FETCH_CLASS, $className );
@@ -107,7 +104,7 @@ class DByhteys {
 			}
 			else { // Haetaan vain yksi rivi
 				if ( empty( $className ) ) {
-					return $stmt->fetch( $returnType ?? PDO::FETCH_LAZY );
+					return $stmt->fetch();
 				}
 				else { // Palautetaan tietyn luokan oliona.
 					return $stmt->fetchObject( $className );
@@ -142,16 +139,13 @@ class DByhteys {
 	 * Palauttaa seuraavan rivin viimeksi tehdystä hausta.
 	 * Huom. ei toimi query()-metodin kanssa. Käytä vain prep.stmt -metodien kanssa.<br>
 	 * Lisäksi, toisen haun tekeminen millä tahansa muulla metodilla nollaa tulokset.
-	 * Palauttaa tulokset objektina, jos ei palautustyyppiä.
-	 * @param int    $returnType [optional] <p> Missä muodossa haluat tiedot palautettavan. Default on PDO::FETCH_OBJ.
 	 * @param string $className  [optional] <p> Jos haluat jonkin tietyn luokan olion. <p>
-	 *                           Huom: $returnType ei tarvitse olla määritely.<p>
 	 *                           Huom: haun muuttujien nimet pitää olla samat kuin luokan muuttujat.
 	 * @return mixed|stdClass
 	 */
-	public function get_next_row( int $returnType = null, string $className = '' ) {
+	public function get_next_row( string $className = '' ) {
 		return (empty( $className ))
-			? $this->prepared_stmt->fetch( $returnType ?? PDO::FETCH_LAZY )
+			? $this->prepared_stmt->fetch()
 			: $this->prepared_stmt->fetchObject( $className ) ;
 	}
 
