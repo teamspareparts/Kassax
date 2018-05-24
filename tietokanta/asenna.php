@@ -22,24 +22,28 @@ foreach ( $db_file as $sql ) {
 	}
 }
 
-// Yritys
+// Admin yritys
 $db->query(
-	"INSERT IGNORE INTO yritys (y_tunnus, yritystunniste, nimi) VALUES (?,?,?)",
+	"INSERT IGNORE INTO yritys
+				(y_tunnus,yritystunniste,nimi,katuosoite,postinumero,postitoimipaikka,maa,puhelin,www_url,email) 
+			VALUES (?,?,?,?,?,?,?,?,?,?)",
 	[   $config['Admin']['y_tunnus'],
 		$config['Admin']['y_yritystunniste'],
-		$config['Admin']['y_nimi']
-	]);
-
-// Admin tunnukset
-// TODO: Kesken
-/*
-$db->prepare_stmt( "INSERT IGNORE INTO kayttaja (yritys_id, user, pass) VALUES (1, ?, ?)");
-for ( $i=0; $i<count( $config['Admin']['kayttajatunnus']); $i++ ) {
-	$db->run_prepared_stmt([
-		$config['Admin']['kayttajatunnus'][$i],
-		password_hash( $config['Admin']['salasana'][$i], PASSWORD_DEFAULT)
-	]);
-}
-*/
+		$config['Admin']['y_nimi'],
+		$config['Admin']['y_katuosoite'],
+		$config['Admin']['y_postinumero'],
+		$config['Admin']['y_postitoimipaikka'],
+		$config['Admin']['y_maa'],
+		$config['Admin']['y_puhelin'],
+		$config['Admin']['y_www_url'],
+		$config['Admin']['y_sahkoposti'],
+	]
+);
+// Admin käyttäjä
+$db->query( "INSERT IGNORE INTO kayttaja (yritys_id, kayttajatunnus, salasana_hajautus) VALUES (1, ?, ?)",
+			[   $config['Admin']['kayttajatunnus'],
+				password_hash( $config['Admin']['salasana'], PASSWORD_DEFAULT)
+			]
+	);
 
 echo '<p>Tietokannan asennus on nyt suoritettu.</p>';
