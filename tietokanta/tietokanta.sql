@@ -139,3 +139,14 @@ create table if not exists tuote_ostotarjoushinta (
 	default charset = utf8
 	collate = utf8_swedish_ci
 	auto_increment = 1;
+
+create table if not exists lang (
+	lang   varchar(3)   not null comment 'Three character language code', -- PK
+	sivu   varchar(10)  not null, -- PK
+	tyyppi varchar(10)  not null, -- PK
+	teksti varchar(255) not null,
+	primary key (lang, sivu, tyyppi)
+)
+	default charset = utf8
+	collate = utf8_swedish_ci
+	auto_increment = 1;
