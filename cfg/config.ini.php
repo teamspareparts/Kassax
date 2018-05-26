@@ -12,14 +12,14 @@ pass = ""
 tecdoc_koodi = "10"
 
 [Misc]
-indev = "0"
+indev = "1"
 indev_txt = "<p>Kassax inDev testing."
 update = "0"
 update_txt = "<p></p><p>YYYY-MM-DD hh:mm</p>"
 header_tervehdys = "<span style='color: red;'>InDev testing</span>"
 
 [Admin]
-kayttajatunnus = "admin@admin"
+kayttajatunnus = "admin"
 salasana = "admin"
 
 y_tunnus = "1234567-8"
