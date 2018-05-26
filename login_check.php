@@ -10,12 +10,12 @@ spl_autoload_register();
  * @param string   $user_password <p> käyttäjän antama salasana
  */
 function beginning_user_checks( User $user, string $user_password ) {
-	if ( !password_verify( $user_password, $user->salasana_hajautus ) ) {
-		header( "Location:index.php?redir=2" );
+	if ( !password_verify( $user_password, $user->salasana ) ) {
+		header( "Location:index.php?redir=4" );
 		exit;
 	}
 	if ( !$user->aktiivinen ) { // Tarkistetaan käyttäjän aktiivisuus
-		header( "Location:index.php?redir=3" );
+		header( "Location:index.php?redir=5" );
 		exit;
 	}
 
@@ -38,41 +38,47 @@ function beginning_user_checks( User $user, string $user_password ) {
 			$class = 'warning';
 		}
 
-		$_SESSION[ 'feedback' ] = "<p class='{$class}'>Salasana vanhenee {$diff} päivän päästä. 
+		$_SESSION[ 'feedback' ] .= "<p class='{$class}'>Salasana vanhenee {$diff} päivän päästä. 
 				<a href='./omat_tiedot.php' style='text-decoration: underline;'>Vaihda salasana.</a></p>";
 	}
 }
 
 if ( empty( $_POST[ "mode" ] ) ) {
-	header( "Location:index.php?redir=4" );
+	header( "Location:index.php?redir=10" );
 	exit(); // Not logged in
 }
 
 $db = new DByhteys();
 $mode = $_POST[ "mode" ];
-$yritys = isset( $_POST[ "yritys" ] ) ? trim( $_POST[ "yritys" ] ) : null;
-$kayttaja = isset( $_POST[ "kayttaja" ] ) ? trim( $_POST[ "kayttaja" ] ) : null;
-$password = (isset( $_POST[ "password" ] ) && strlen( $_POST[ "password" ] ) < 300) ? $_POST[ "password" ] : '';
+$yritys = isset( $_POST[ "yritys" ] )
+	? trim( $_POST[ "yritys" ] )
+	: null;
+$kayttaja = isset( $_POST[ "kayttaja" ] )
+	? trim( $_POST[ "kayttaja" ] )
+	: null;
+$password = (isset( $_POST[ "salasana" ] ) && strlen( $_POST[ "salasana" ] ) < 300)
+	? $_POST[ "salasana" ]
+	: '';
 
 if ( $mode === "login" ) {
 	session_start();
 	session_regenerate_id( true );
 
 	// Haetaan käyttäjän tiedot
-	$sql = "SELECT id, yritystunniste
+	$sql = "SELECT id, yritystunniste, yllapitaja
 			FROM yritys 
 			WHERE yritystunniste = ?
 			LIMIT 1";
 	/** @var Yritys $yritys */
-	$yritys = $db->query( $sql, [ $yritys ], false, null, 'Yritys' );
+	$yritys = $db->query( $sql, [ $yritys ], false, 'Yritys' );
 
 	// Haetaan käyttäjän tiedot
-	$sql = "SELECT id, yritys_id, salasana_hajautus, salasana_vaihdettu, salasana_uusittava, kieli
+	$sql = "SELECT id, yritys_id, salasana, salasana_vaihdettu, salasana_uusittava, kieli, aktiivinen
 			FROM kayttaja 
 			WHERE kayttajatunnus = ? AND yritys_id = ?
 			LIMIT 1";
 	/** @var User $user */
-	$user = $db->query( $sql, [ $kayttaja, $yritys->id ], false, null, 'User' );
+	$user = $db->query( $sql, [ $kayttaja, $yritys->id ], false, 'User' );
 
 	if ( $yritys AND $user ) {
 		beginning_user_checks( $user, $password );
@@ -97,7 +103,7 @@ if ( $mode === "login" ) {
 
 		$redirect_url = !empty( $_SESSION[ 'redirect_url' ] )
 			? $_SESSION[ 'redirect_url' ]
-			: ( ($user->yllapitaja)
+			: ( ($yritys->yllapitaja)
 				? './admin/'
 				: './client/' );
 
@@ -111,5 +117,5 @@ if ( $mode === "login" ) {
 	}
 }
 
-header( "Location:index.php?redir=98" );
+header( "Location:index.php?redir=10" );
 exit();
