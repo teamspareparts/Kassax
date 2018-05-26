@@ -85,13 +85,12 @@ create table if not exists kayttaja (
 	id                  smallint unsigned not null auto_increment, -- PK
 	yritys_id           smallint unsigned not null, -- FK
 	kayttajatunnus      varchar(255)      not null comment 'Kirjautumista varten',
-	salasana_hajautus   varchar(255)      not null comment 'Hashed & salted',
+	salasana            varchar(255)      not null comment 'Hashed & salted',
 	salasana_vaihdettu  timestamp                  default CURRENT_TIMESTAMP comment 'Milloin viimeksi salasana vaihdettu',
 	salasana_uusittava  boolean           not null default 0,
 	viime_kirjautuminen timestamp         null     default null,
 	aktiivinen          boolean           not null default true,
-	kieli               tinyint           not null default 1 comment 'varchar(3/2)? e.g. "FI/FIN", "EN/ENG", virallinen language code?'
-	comment 'Käyttäjän valitsema sivuston kieli',
+	kieli               varchar(3)        not null default 1 comment 'Käyttäjän valitsema sivuston kieli, e.g. "fin", "eng"',
 	primary key (id),
 	constraint fk_kayttaja_yritys foreign key (yritys_id) references yritys (id)
 )

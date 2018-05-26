@@ -9,8 +9,8 @@ class User {
 	public $id;
 	/** @var int $yritys_id */
 	public $yritys_id;
-	/** @var string $salasana_hajautus */
-	public $salasana_hajautus;
+	/** @var string $salasana Hashed & salted */
+	public $salasana;
 	/** @var string $salasana_vaihdettu DateTime muodossa */
 	public $salasana_vaihdettu;
 	/** @var bool $salasana_uusittava */
