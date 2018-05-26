@@ -25,8 +25,8 @@ foreach ( $db_file as $sql ) {
 // Admin yritys
 $db->query(
 	"INSERT IGNORE INTO yritys
-				(y_tunnus,yritystunniste,nimi,katuosoite,postinumero,postitoimipaikka,maa,puhelin,www_url,email) 
-			VALUES (?,?,?,?,?,?,?,?,?,?)",
+				(y_tunnus,yritystunniste,nimi,katuosoite,postinumero,postitoimipaikka,maa,puhelin,www_url,email,yllapitaja) 
+			VALUES (?,?,?,?,?,?,?,?,?,?,1)",
 	[   $config['Admin']['y_tunnus'],
 		$config['Admin']['y_yritystunniste'],
 		$config['Admin']['y_nimi'],
@@ -40,7 +40,7 @@ $db->query(
 	]
 );
 // Admin käyttäjä
-$db->query( "INSERT IGNORE INTO kayttaja (yritys_id, kayttajatunnus, salasana_hajautus) VALUES (1, ?, ?)",
+$db->query( "INSERT IGNORE INTO kayttaja (yritys_id, kayttajatunnus, salasana) VALUES (1, ?, ?)",
 			[   $config['Admin']['kayttajatunnus'],
 				password_hash( $config['Admin']['salasana'], PASSWORD_DEFAULT)
 			]
