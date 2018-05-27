@@ -57,7 +57,7 @@ function tarkista_feedback_POST() {
 /*
  * Luokat ladataan jatkossa tarpeen mukaan. PHP etsii tarvittavan luokan automaattisesti luokat-kansiosta
  */
-set_include_path(get_include_path().PATH_SEPARATOR.'luokat/');
+set_include_path(get_include_path().PATH_SEPARATOR.'../luokat/');
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
