@@ -1,6 +1,15 @@
 <?php declare(strict_types=1);
+
+require './luokat/language.class.php';
+require 'luokat/dbyhteys.class.php';
+
 session_start();
+
 $config = parse_ini_file( "./cfg/config.ini.php" );
+$db = new DByhteys( $config );
+
+$GET_lang = !empty($_GET['lang']) ? $_GET['lang'] : 'fin';
+$lang = Language::fetch( $db, $GET_lang, 'login' );
 
 /**
  * Tarkistetaan onko kyseessä uudelleenohjaus, ja tulostetaan viesti sen mukaan.
@@ -15,32 +24,32 @@ if ( !empty($_GET['redir']) || !empty($_SESSION['id']) ) {
 	 */
 	$modes_array = [
 		1 => array(
-			"otsikko" => "Väärät kirjautumistiedot",
-			"teksti" => "Varmista, että kirjoitit tiedot oikein.",
+			"otsikko" => $lang->ERR1_FS_LEGEND,
+			"teksti" => $lang->ERR1_FS_TEXT,
 			"style" => "error" ),
 		2 => array(
-			"otsikko" => "Väärä yritystunnus",
-			"teksti" => "Ditto",
+			"otsikko" => $lang->ERR2_FS_LEGEND,
+			"teksti" => $lang->ERR2_FS_TEXT,
 			"style" => "error" ),
 		3 => array(
-			"otsikko" => "Väärät käyttäjätunnus",
-			"teksti" => "Ditto",
+			"otsikko" => $lang->ERR3_FS_LEGEND,
+			"teksti" => $lang->ERR3_FS_TEXT,
 			"style" => "error" ),
 		4 => array(
-			"otsikko" => "Väärä salasana",
-			"teksti" => "Ditto",
+			"otsikko" => $lang->ERR4_FS_LEGEND,
+			"teksti" => $lang->ERR4_FS_TEXT,
 			"style" => "error" ),
 		5 => array(
-			"otsikko" => "Käyttäjätili de-aktivoitu",
-			"teksti" => "Ylläpitäjä on poistanut käyttöoikeutesi palveluun.",
+			"otsikko" => $lang->ERR5_FS_LEGEND,
+			"teksti" => $lang->ERR5_FS_TEXT,
 			"style" => "error" ),
 		10 => array(
-			"otsikko" => "Et ole kirjautunut sisään",
-			"teksti" => "Sinun pitää kirjautua sisään ennen kuin voit käyttää sivustoa.",
+			"otsikko" => $lang->ERR10_FS_LEGEND,
+			"teksti" => $lang->ERR10_FS_TEXT,
 			"style" => "error" ),
 		20 => array(
-			"otsikko" => "Kirjaudutaan ulos",
-			"teksti" => "Olet onnistuneesti kirjautunut ulos.",
+			"otsikko" => $lang->ERR20_FS_LEGEND,
+			"teksti" => $lang->ERR20_FS_TEXT,
 			"style" => "info" ),
 
 		98 => array(
@@ -48,9 +57,9 @@ if ( !empty($_GET['redir']) || !empty($_SESSION['id']) ) {
 			"teksti" => 'Jotain meni vikaan',
 			"style" => "error" ),
 		99 => array(
-			"otsikko" => "Olet jo kirjautunut sisään.",
-			"teksti" => '<p><a href="etusivu.php">Linkki etusivulle</a>
-						<p><a href="logout.php">Kirjaudu ulos</a>',
+			"otsikko" => $lang->ERR99_FS_LEGEND,
+			"teksti" => "<p><a href='login_check.php?redir_to_frontpage'>{$lang->ERR99_FS_TEXT1}</a>
+						<p><a href='logout.php'>{$lang->ERR99_FS_TEXT2}</a>",
 			"style" => "info" ),
 	];
 }
@@ -97,31 +106,37 @@ $css_version = filemtime( 'css/login.css' );
 		</div>
 	<?php endif; ?>
 
-	<fieldset><legend>Sisäänkirjautuminen</legend>
+	<fieldset><legend><?= $lang->LOGIN_FS_LEGEND ?></legend>
 		<form action="login_check.php" method="post" accept-charset="utf-8">
 
-			<label>Yritystunnus:
-				<input type="text" name="yritys" placeholder="Yrityksen kirjautumistunnus" id="login_yritys"
+			<label><?= $lang->LOGIN_YRIT ?>:
+				<input type="text" name="yritys" placeholder="<?= $lang->LOGIN_YRIT_PH ?>" id="login_yritys"
 				       required autofocus disabled>
 			</label>
 
-			<label>Käyttäjätunnus:
-				<input type="text" name="kayttaja" placeholder="Käyttäjätunnus" id="login_user"
+			<label><?= $lang->LOGIN_USER ?>:
+				<input type="text" name="kayttaja" placeholder="<?= $lang->LOGIN_USER_PH ?>" id="login_user"
 				       required>
 			</label>
 
-			<label>Salasana:
-				<input type="password" name="salasana" placeholder="Salasana" pattern=".{5,255}$" required>
+			<label><?= $lang->LOGIN_PASS ?>:
+				<input type="password" name="salasana" placeholder="<?= $lang->LOGIN_USER_PH ?>" pattern=".{5,255}$" required>
 			</label>
 
 			<input type="hidden" name="mode" value="login">
-			<input type="submit" value="Kirjaudu sisään" id="login_submit" disabled>
+			<input type="submit" value="<?= $lang->LOGIN_BUTTON ?>" id="login_submit" disabled>
 
 		</form>
 	</fieldset>
 
-	<fieldset><legend>Kieli / Language <i class="material-icons">language</i> </legend>
+	<fieldset>
+		<legend>
+			<?= $lang->LANG_FS_LEGEND ?> <?= ($lang->lang != 'eng') ? '/ Language' : '' ?>
+			<i class="material-icons">language</i>
+		</legend>
 
+		<a href="?lang=eng">English</a>
+		<a href="?lang=fin">Finnish</a>
 	</fieldset>
 </main>
 
@@ -138,7 +153,6 @@ $css_version = filemtime( 'css/login.css' );
 		document.getElementById('login_yritys').removeAttribute('disabled');
 		document.getElementById('login_submit').removeAttribute('disabled');
 	}
-	window.history.pushState('login', 'Title', 'index.php'); //Poistetaan GET URL:sta
 </script>
 
 </body>
