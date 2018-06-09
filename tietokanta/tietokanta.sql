@@ -121,6 +121,7 @@ create table if not exists toimittaja_nto (
 	yritys_id      smallint unsigned not null, -- PK FK
 	toimittaja_nto smallint unsigned not null, -- FK
 	primary key (tuote_id, yritys_id),
+	constraint fk_toimittajanto_tuote foreign key (tuote_id) references tuote (id)
 	constraint fk_toimittajanto_yritys foreign key (yritys_id) references yritys (id)
 )
 	default charset = utf8
