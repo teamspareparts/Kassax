@@ -128,12 +128,13 @@ create table if not exists toimittaja_nto (
 	auto_increment = 1;
 
 create table if not exists tuote_ostotarjoushinta (
-	tuote_id         smallint unsigned not null, -- FK
-	yritys_id        smallint unsigned not null, -- FK
+	tuote_id         smallint unsigned not null, -- PK, FK
+	yritys_id        smallint unsigned not null, -- PK, FK
 	ostotarjoushinta decimal(11, 4),
 	pvm_alkaa        timestamp         not null default CURRENT_TIMESTAMP,
 	pvm_loppuu       timestamp         not null default CURRENT_TIMESTAMP,
 	primary key (tuote_id, yritys_id),
+	constraint fk_tuoteostotarjoushinta_tuote foreign key (tuote_id) references tuote (id)
 	constraint fk_tuoteostotarjoushinta_yritys foreign key (yritys_id) references yritys (id)
 )
 	default charset = utf8
