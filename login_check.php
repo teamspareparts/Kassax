@@ -10,7 +10,7 @@ spl_autoload_register();
  * @param string   $user_password <p> käyttäjän antama salasana
  */
 function beginning_user_checks( User $user, string $user_password ) {
-	if ( !password_verify( $user_password, $user->salasana ) ) {
+	if ( !$user->verifyPassword($user_password) ) {
 		header( "Location:index.php?redir=4" );
 		exit;
 	}
