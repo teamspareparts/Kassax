@@ -55,7 +55,7 @@ $lang_strings = [
 	'eng' , 'login' , 'LOGIN_BUTTON'	, 'Login' ,
 	'eng' , 'login' , 'LANG_FS_LEGEND'	, 'Language' ,
 
-	'eng' , 'login' , 'ERR1_FS_HEAD'	, 'Wring login informationt' ,
+	'eng' , 'login' , 'ERR1_FS_HEAD'	, 'Wrong login informationt' ,
 	'eng' , 'login' , 'ERR1_FS_TEXT'	, 'Please check that you wrote the correct information.' ,
 	'eng' , 'login' , 'ERR2_FS_HEAD'	, 'Wrong company account' ,
 	'eng' , 'login' , 'ERR2_FS_TEXT'	, 'Ditto' ,

@@ -48,7 +48,7 @@ if ( empty( $_POST[ "mode" ] ) ) {
 	exit(); // Not logged in
 }
 
-$db = new DByhteys();
+$db = new DByhteys( [], './cfg/config.ini.php');
 $mode = $_POST[ "mode" ];
 $yritys = isset( $_POST[ "yritys" ] )
 	? trim( $_POST[ "yritys" ] )
@@ -97,6 +97,7 @@ if ( $mode === "login" ) {
 
 		$_SESSION[ 'id' ] = (int)$user->id;
 		$_SESSION[ 'yritys_id' ] = (int)$user->yritys_id;
+		$_SESSION[ 'lang' ] = (int)$user->kieli;
 
 		$config = parse_ini_file( "./config/config.ini.php" );
 		$_SESSION[ 'indev' ] = (bool)$config[ 'indev' ];

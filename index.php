@@ -135,8 +135,8 @@ $css_version = filemtime( 'css/login.css' );
 			<i class="material-icons">language</i>
 		</legend>
 
-		<a href="?lang=eng">English</a>
-		<a href="?lang=fin">Finnish</a>
+		<p><a href="?lang=eng">English</a></p>
+		<p><a href="?lang=fin">Finnish</a></p>
 	</fieldset>
 </main>
 
