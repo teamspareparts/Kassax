@@ -142,7 +142,7 @@ create table if not exists tuote_ostotarjoushinta (
 	collate = utf8_swedish_ci
 	auto_increment = 1;
 
-create table if not exists language (
+create table if not exists lang (
 	lang   varchar(3)   not null comment 'Three character language code ISO 639-2/T', -- PK
 	admin  boolean      not null comment 'Client vai admin puoli sivustosta', -- PK
 	sivu   varchar(10)  not null comment 'Millä sivulla teksti on', -- PK

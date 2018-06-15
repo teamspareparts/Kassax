@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 require './luokat/language.class.php';
-require 'luokat/dbyhteys.class.php';
+require './luokat/dbyhteys.class.php';
 
 session_start();
 
