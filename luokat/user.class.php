@@ -21,7 +21,7 @@ class User {
 	public $aktiivinen;
 	/** @var bool $yllapitaja */
 	public $yllapitaja;
-	/** @var int $kieli */
+	/** @var string $kieli */
 	public $kieli;
 
 	/**
@@ -34,8 +34,8 @@ class User {
 	 */
 	function __construct( DByhteys $db = null, int $user_id = null ) {
 		if ( $user_id !== null ) { // Varmistetaan parametrin oikeellisuus
-			$sql = "select kayttaja.id, yritys.id, salasana_vaihdettu, salasana_uusittava, viime_kirjautuminen,
-				  		kayttaja.aktiivinen, yritys.yllapitaja 			  		
+			$sql = "select kayttaja.id, yritys.id, salasana_vaihdettu, salasana_uusittava,
+                        viime_kirjautuminen, kayttaja.aktiivinen, yritys.yllapitaja, kieli
 					from kayttaja 
 						join yritys on kayttaja.yritys_id = yritys.id
 					where kayttaja.id = ?

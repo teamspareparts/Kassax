@@ -91,7 +91,7 @@ create table if not exists kayttaja (
 	salasana_uusittava  boolean           not null default 0,
 	viime_kirjautuminen timestamp         null     default null,
 	aktiivinen          boolean           not null default true,
-	kieli               varchar(3)        not null default 1 comment 'Käyttäjän valitsema sivuston kieli, e.g. "fin", "eng"',
+	kieli               varchar(3)        not null default 1 comment 'Three character language code ISO 639-2/T',
 	primary key (id),
 	constraint fk_kayttaja_yritys foreign key (yritys_id) references yritys (id)
 )
@@ -121,7 +121,7 @@ create table if not exists toimittaja_nto (
 	yritys_id      smallint unsigned not null, -- PK FK
 	toimittaja_nto smallint unsigned not null, -- FK
 	primary key (tuote_id, yritys_id),
-	constraint fk_toimittajanto_tuote foreign key (tuote_id) references tuote (id)
+	constraint fk_toimittajanto_tuote foreign key (tuote_id) references tuote (id),
 	constraint fk_toimittajanto_yritys foreign key (yritys_id) references yritys (id)
 )
 	default charset = utf8
@@ -135,7 +135,7 @@ create table if not exists tuote_ostotarjoushinta (
 	pvm_alkaa        timestamp         not null default CURRENT_TIMESTAMP,
 	pvm_loppuu       timestamp         not null default CURRENT_TIMESTAMP,
 	primary key (tuote_id, yritys_id),
-	constraint fk_tuoteostotarjoushinta_tuote foreign key (tuote_id) references tuote (id)
+	constraint fk_tuoteostotarjoushinta_tuote foreign key (tuote_id) references tuote (id),
 	constraint fk_tuoteostotarjoushinta_yritys foreign key (yritys_id) references yritys (id)
 )
 	default charset = utf8
@@ -144,10 +144,11 @@ create table if not exists tuote_ostotarjoushinta (
 
 create table if not exists language (
 	lang   varchar(3)   not null comment 'Three character language code ISO 639-2/T', -- PK
+	admin  boolean      not null comment 'Client vai admin puoli sivustosta', -- PK
 	sivu   varchar(10)  not null comment 'Millä sivulla teksti on', -- PK
 	tyyppi varchar(30)  not null comment 'Mikä teksti kyseessä', -- PK
 	teksti varchar(255) not null,
-	primary key (lang, sivu, tyyppi)
+	primary key (lang, admin, sivu, tyyppi)
 )
 	default charset = utf8
 	collate = utf8_swedish_ci

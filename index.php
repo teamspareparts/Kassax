@@ -9,7 +9,7 @@ $config = parse_ini_file( "./cfg/config.ini.php" );
 $db = new DByhteys( $config );
 
 $GET_lang = !empty($_GET['lang']) ? $_GET['lang'] : 'fin';
-$lang = Language::fetch( $db, $GET_lang, 'login' );
+$lang = Language::fetch( $db, $GET_lang, false, 'login' );
 
 /**
  * Tarkistetaan onko kyseessä uudelleenohjaus, ja tulostetaan viesti sen mukaan.

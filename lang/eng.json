@@ -1,0 +1,38 @@
+{
+	"admin": {
+	},
+	"client": {
+		"login": {
+			"page": "login",
+			"strings": {
+				"HTML_TITLE": "Login",
+				"LOGIN_FS_LEGEND": "Login",
+				"LOGIN_YRIT": "Company",
+				"LOGIN_YRIT_PH": "Company account",
+				"LOGIN_USER": "User",
+				"LOGIN_USER_PH": "User account",
+				"LOGIN_PASS": "Password",
+				"LOGIN_PASS_PH": "Password",
+				"LOGIN_BUTTON": "Login",
+				"LANG_FS_LEGEND": "Language",
+				"ERR1_FS_HEAD": "Wrong login informationt",
+				"ERR1_FS_TEXT": "Please check that you wrote the correct information.",
+				"ERR2_FS_HEAD": "Wrong company account",
+				"ERR2_FS_TEXT": "Ditto",
+				"ERR3_FS_HEAD": "Wrong user account",
+				"ERR3_FS_TEXT": "Ditto",
+				"ERR4_FS_HEAD": "Wrong password",
+				"ERR4_FS_TEXT": "Ditto",
+				"ERR5_FS_HEAD": "User account de-activated",
+				"ERR5_FS_TEXT": "Ditto",
+				"ERR10_FS_HEAD": "You are not logged in",
+				"ERR10_FS_TEXT": "You need to log in before using the site.",
+				"ERR20_FS_HEAD": "Logging out",
+				"ERR20_FS_TEXT": "You have succesfully logged out.",
+				"ERR99_FS_HEAD": "You are already logged in",
+				"ERR99_FS_TEXT1": "Link to front page",
+				"ERR99_FS_TEXT2": "Log out"
+			}
+		}
+	}
+}

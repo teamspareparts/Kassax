@@ -27,17 +27,19 @@ class Language {
 	/**
 	 * @param DByhteys $db
 	 * @param string   $lang Three character language code ISO 639-2/T
+	 * @param bool     $admin
 	 * @param string   $page Sivu jonka käännökset haetaan
 	 *
 	 * @return stdClass
 	 */
-	static function fetch( DByhteys $db, string $lang, string $page ) : stdClass {
+	static function fetch( DByhteys $db, string $lang, bool $admin, string $page ) : stdClass {
 
 		$sql = "select tyyppi, teksti 
 				from lang
 				where lang = ? 
+				  and (admin = ? or admin is null)
 				  and (sivu = ? or sivu is null)";
-		$rows = $db->query( $sql, [ $lang, $page ], DByhteys::FETCH_ALL );
+		$rows = $db->query( $sql, [ $lang, $admin, $page ], DByhteys::FETCH_ALL );
 
 		$new_lang_object = new stdClass();
 

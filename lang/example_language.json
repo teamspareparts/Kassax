@@ -1,0 +1,56 @@
+{
+	"admin": {
+		"index": {
+			"page": "index",
+			"strings": {
+				"STRING": "text"
+			}
+		},
+		"example": {
+			"page": "example",
+			"strings": {
+				"STRING": "text"
+			}
+		}
+	},
+	"client": {
+		"login": {
+			"page": "login",
+			"strings": {
+				"HTML_TITLE": "Kirjautuminen",
+				"LOGIN_FS_LEGEND": "Sisäänkirjautuminen",
+				"LOGIN_YRIT": "Yritystunnus",
+				"LOGIN_YRIT_PH": "Yrityksen kirjautumistunnus",
+				"LOGIN_USER": "Käyttäjätunnus",
+				"LOGIN_USER_PH": "Käyttäjätunnus",
+				"LOGIN_PASS": "Salasana",
+				"LOGIN_PASS_PH": "Salasana",
+				"LOGIN_BUTTON": "Kirjaudu sisään",
+				"LANG_FS_LEGEND": "Kieli",
+				"ERR1_FS_HEAD": "Väärät kirjautumistiedot",
+				"ERR1_FS_TEXT": "Varmista, että kirjoitit tiedot oikein.",
+				"ERR2_FS_HEAD": "Väärä yritystunnus",
+				"ERR2_FS_TEXT": "Ditto",
+				"ERR3_FS_HEAD": "Väärä käyttäjätunnus",
+				"ERR3_FS_TEXT": "Ditto",
+				"ERR4_FS_HEAD": "Väärä salasana",
+				"ERR4_FS_TEXT": "Ditto",
+				"ERR5_FS_HEAD": "Käyttäjätili de-aktivoitu",
+				"ERR5_FS_TEXT": "Ditto",
+				"ERR10_FS_HEAD": "Et ole kirjautunut sisään",
+				"ERR10_FS_TEXT": "Sinun pitää kirjautua sisään ennen kuin voit käyttää sivustoa.",
+				"ERR20_FS_HEAD": "Kirjaudutaan ulos",
+				"ERR20_FS_TEXT": "Olet onnistuneesti kirjautunut ulos.",
+				"ERR99_FS_HEAD": "Olet jo kirjautunut sisään.",
+				"ERR99_FS_TEXT1": "Linkki etusivulle",
+				"ERR99_FS_TEXT2": "Kirjaudu ulos"
+			}
+		},
+		"example": {
+			"page": "example",
+			"strings": {
+				"STRING": "text"
+			}
+		}
+	}
+}
