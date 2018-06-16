@@ -5,12 +5,12 @@
 </noscript>
 
 <style>
-	#headertop { background-color: white; }
+	#css-headertop { background-color: white; }
 </style>
 
 <header>
 
-	<section class="d-flex flex-row align-items-center" id="headertop">
+	<section class="d-flex flex-row align-items-center" id="css-headertop">
 		<div>
 			<a href="./index.php"> <img src="./../img/kassax_logo.jpg"> </a>
 		</div>
@@ -22,9 +22,11 @@
 	<nav class="navbar navbar-expand-md navbar-light bg-light">
 		<!-- Brand & hamburger-icon -->
 		<a class="navbar-brand" href="./index.php">
-			<i class="material-icons" style="margin-top: -3px;">home</i>
+			<img src="./../img/kassax_logo.jpg" style="height: 27px;">
+<!--			<i class="material-icons" style="margin-top: -3px;">home</i>-->
 		</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".collapse"
+		        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<!-- Left -->
@@ -47,4 +49,22 @@
 			</ul>
 		</div>
 	</nav>
+
+	<hr>
+
+	<nav class="navigationbar" id="navbar">
+		<ul>
+			<li><a href='./index.php' style="padding-left:15px; padding-right: 15px;">
+					<i class="material-icons" style="margin-top: -3px;">home</i></a>
+			</li>
+
+			<li><a href='#'>Asiakkaat</a></li>
+			<li><a href='#'>Raportit</a></li>
+
+			<li class="last">
+				<a href="../logout.php?redir=5">Kirjaudu ulos <i class="material-icons">exit_to_app</i></a>
+			</li>
+		</ul>
+	</nav>
+
 </header>

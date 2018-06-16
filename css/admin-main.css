@@ -205,3 +205,58 @@ hr {
 	color: white;
 	text-align: center;
 }
+
+
+
+
+/********************************************
+	TESTING
+********************************************/
+
+table {
+	margin: 0;
+	padding: 0;
+	border-spacing: 0;
+	border-collapse: separate;
+}
+
+tr:nth-child(odd) { background: #eee; }
+tr:nth-child(even) { background: #fff; }
+
+tbody tr:nth-child(odd) th { background: #e7f3ff; }
+tbody tr:nth-child(even) th { background: #f1f8ff; }
+
+tr .rivi { max-height: 1em; }
+
+/* Taulukon alin "yhteensä"-rivi */
+tr.border_top td { border-top: 1px solid black; }
+
+th,
+td {
+	padding: 6pt 10pt;
+	margin: 0;
+	text-align: left;
+}
+
+td.toiminnot { padding-left: 0.5em; }
+
+td .nappi {
+	padding: 4pt 5pt;
+	font-size: 75%;
+}
+
+thead th {
+	font-size: 100%;
+	font-weight: normal;
+	text-shadow: 0 1px 0 #368;
+	background-color: #2f5cad;
+	color: #fff;
+	margin: 0;
+	padding-top: 5pt;
+	padding-bottom: 5pt;
+}
+
+.smaller_cell {
+	text-align: center;
+	width: 10%;
+}
