@@ -1,7 +1,11 @@
 <?php declare(strict_types=1);
-require '_start.php'; global $db, $user;
+require '_start.php';
+/**
+ * @var $db DByhteys
+ * @var $user User
+ * @var $lang Language
+ */
 
-tarkista_admin( $user );
 tarkista_feedback_POST();
 ?>
 
