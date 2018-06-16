@@ -69,7 +69,8 @@ $user = new User( $db, $_SESSION['id'] );
  */
 if ( !$user->isValid() ) {
 	$_SESSION['redirect_url'] = $_SERVER['REQUEST_URI'];
-	header( 'Location: index.php?redir=4' ); exit;
+	header( 'Location: ../logout.php?redir=10' );
+	exit;
 }
 
 if ( !$user->isAdmin() ) {
