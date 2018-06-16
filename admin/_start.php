@@ -29,16 +29,6 @@ function format_number( $number, int $dec_count = 2, bool $ilman_euro = false ) 
 }
 
 /**
- * Tarkistaa onko käyttäjä admin. Jos ei, heittää etusivulle.
- * @param \User $user
- */
-function tarkista_admin( User $user ) {
-	if ( !$user->isAdmin() ) {
-		header("Location:etusivu.php"); exit();
-	}
-}
-
-/**
  * Tarkistetaan feedback, ja estetään formin uudelleenlähetys.
  * @return string $feedback
  */
@@ -84,6 +74,12 @@ if ( !$user->isValid() ) {
 	$_SESSION['redirect_url'] = $_SERVER['REQUEST_URI'];
 	header( 'Location: index.php?redir=4' ); exit;
 }
+
+if ( !$user->isAdmin() ) {
+	header("Location: client/index.php");
+	exit();
+}
+
 /*
  * Lisäksi tarkistetaan EULA, jotta käyttäjä ei pysty käyttämään sivustoa ilman hyväksyntää.
  */
