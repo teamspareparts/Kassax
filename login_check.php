@@ -69,8 +69,8 @@ if ( $mode === "login" ) {
 			FROM yritys 
 			WHERE yritystunniste = ?
 			LIMIT 1";
-	/** @var Yritys $yritys */
-	$yritys = $db->query( $sql, [ $yritys ], false, 'Yritys' );
+	/** @var Firm $yritys */
+	$yritys = $db->query( $sql, [ $yritys ], false, 'Firm' );
 
 	// Haetaan käyttäjän tiedot
 	$sql = "SELECT id, yritys_id, salasana, salasana_vaihdettu, salasana_uusittava, kieli, aktiivinen
