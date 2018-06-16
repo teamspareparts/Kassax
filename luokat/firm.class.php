@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class Yritys
+ * Class Firm
  */
-class Yritys {
+class Firm {
 
 	/** @var int $id */
 	public $id;
@@ -42,7 +42,7 @@ class Yritys {
 	 * @param DByhteys $db        [optional]
 	 * @param int      $yritys_id [optional]
 	 */
-	function __construct( DByhteys $db = null, int $yritys_id = null ) {
+	public function __construct( DByhteys $db = null, int $yritys_id = null ) {
 		if ( $db !== null and $yritys_id !== null ) {
 			$sql = "select id, y_tunnus, yritystunniste, nimi, katuosoite, postinumero, 
 						postitoimipaikka, maa, puhelin, www_url, email, logo, aktiivinen
@@ -58,6 +58,16 @@ class Yritys {
 			}
 		}
 	}
+
+	// TODO : Kesken
+	public function setFirmInfos( DByhteys $db, array $values ) {
+		$sql = "update yritys
+				set id = id
+				where id = ?";
+		$db->query($sql, [$this->id]);
+	}
+
+
 
 	/**
 	 * Palauttaa, onko olio käytettävissä, eikä NULL.

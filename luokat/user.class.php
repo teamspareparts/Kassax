@@ -10,7 +10,7 @@ class User {
 	/** @var int $yritys_id */
 	public $yritys_id;
 	/** @var string $salasana Hashed & salted */
-	private $salasana;
+	public $salasana;
 	/** @var string $salasana_vaihdettu DateTime muodossa */
 	public $salasana_vaihdettu;
 	/** @var bool $salasana_uusittava */
@@ -70,15 +70,17 @@ class User {
 				set kayttaja.salasana = ?, kayttaja.salasana_vaihdettu = NOW(),
 					kayttaja.salasana_uusittava = NOW() + INTERVAL ? DAY
 				WHERE kayttaja.id = ?";
-		//TODO: SalasanaUusittava -> config
+		// TODO : SalasanaUusittava -> config
 		$db->query($sql, [ $password_hash, 180, $this->id ]);
 		return true;
 	}
 
-	public function setUserInfos( DByhteys $db = null, int $user_id, array $values ) {
+	// TODO : Kesken
+	public function setUserInfos( DByhteys $db = null, array $values ) {
 		$sql = "update kayttaja 
-				set kayttaja.id = kayttaja.id
+				set id = id
 				WHERE kayttaja.id = ?";
+		$db->query($sql, [$this->id]);
 	}
 
 	/**
@@ -106,19 +108,5 @@ class User {
 	 */
 	public function isValid(): bool {
 		return ($this->id !== null);
-	}
-}
-
-class UserInit{
-	public static function createUser( DByhteys $db, int $yritys_id, string $kayttajatunnus, $salasana ) {
-		$salasana_hash = password_hash($salasana, PASSWORD_DEFAULT);
-		$sql = "insert into kayttaja (yritys_id, kayttajatunnus, salasana, salasana_uusittava)
-				values(?,?,?,1)";
-		$db->query($sql, [$yritys_id, $kayttajatunnus, $salasana_hash]);
-	}
-
-	public static function deleteUser( DByhteys $db, int $user_id ) {
-		$sql = "update kayttaja set aktiivinen = 0 where id = ?";
-		$db->query($sql, [$user_id]);
 	}
 }
