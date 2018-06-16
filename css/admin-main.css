@@ -1,6 +1,12 @@
 @CHARSET "UTF-8";
 /********************************************
 	General application
+
+	Main colors:
+		#2f5cad - Main blue
+		#02285c - Darker blue
+		#1d7ae2 - Lighter blue
+
 *********************************************/
 html {
 	position: relative;
@@ -14,13 +20,10 @@ html {
 body {
 	font-family: Helvetica, 'Open Sans', sans-serif;
 	margin: 0;
-	line-height: normal;
 	font-size: medium;
 	color: black;
 	background-color: #ddd;
 }
-
-main { display: block; } /* IE */
 
 a, 
 a:hover, 
@@ -35,15 +38,8 @@ hr {
 	display: block;
 	height: 1px;
 	border: 0;
-	border-top: 1px solid #ccc;
+	border-top: 1px solid #1d7ae2;
 	margin: 1em 0;
-	padding: 0;
-}
-
-/* Remove default fieldset styles. */
-fieldset {
-	border: 0;
-	margin: 0;
 	padding: 0;
 }
 
@@ -65,22 +61,14 @@ fieldset {
 	text-shadow: none;
 }
 
-
 .main_body_container {
 	margin: 20px 5vw 3rem; /* <top> <right and left> <bottom> -- Ylhäältä enenmmän jotta ei kiinni headerissa */
-}
-
-.hidden {
-	display: none;
 }
 
 /* Ikonit eivät näytä hirveän keskittyneiltä. Tämä korjaa asiaa hieman. */
 .material-icons {
 	vertical-align: middle !important;
 }
-
-
-
 
 /********************************************
 	Header
