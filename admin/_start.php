@@ -63,9 +63,6 @@ session_start();
  */
 $db = new DByhteys();
 $user = new User( $db, $_SESSION['id'] );
-$lang = Language::fetch(
-	$db, $user->kieli, $user->isAdmin(), basename( $_SERVER[ 'SCRIPT_NAME' ] , '.php' )
-);
 
 /*
  * Tarkistetaan, että käyttäjä on olemassa, ja oikea, ja kirjautunut sisään.
@@ -88,3 +85,11 @@ if ( !$user->isAdmin() ) {
 //	//$_SESSION['redirect_url'] = $_SERVER['REQUEST_URI'];
 //    //header( 'Location: eula.php' ); exit;
 //}
+
+/*
+ * Haetaan kieli viimeisenä, ensinnäkin koska se vaatii validin käyttäjän,
+ * ja toiseksi, koska se saattaa hakea aika paljon tietokannasta.(?)
+ */
+$lang = Language::fetch(
+	$db, $user->kieli, $user->isAdmin(), basename( $_SERVER[ 'SCRIPT_NAME' ] , '.php' )
+);
