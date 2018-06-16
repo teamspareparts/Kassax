@@ -69,7 +69,7 @@ $css_version = filemtime( 'css/login.css' );
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Login</title>
+	<title><?= $lang->HTML_TITLE ?></title>
 	<link rel="icon" type="image/jpg" href="img/favicon.jpg"/>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" type="text/css" href="css/login.css?v=<?= $css_version ?>">
