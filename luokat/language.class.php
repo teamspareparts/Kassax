@@ -3,20 +3,24 @@
 /**
  * @class Language
  */
-class Language {
+class Language extends stdClass {
+
+	public $HTML_TITLE;
 
 	/**
 	 * @param DByhteys $db
 	 * @param string   $lang Three character language code ISO 639-2/T
+	 * @param bool     $admin
 	 * @param string   $page Sivu jonka käännökset haetaan
 	 */
-	function __construct( DByhteys $db, string $lang, string $page ) {
+	function __construct( DByhteys $db, string $lang, bool $admin, string $page ) {
 
 		$sql = "select tyyppi, teksti 
 				from lang
 				where lang = ? 
+				  and admin = ?
 				  and (sivu = ? or sivu is null)";
-		$rows = $db->query( $sql, [ $lang, $page ], DByhteys::FETCH_ALL );
+		$rows = $db->query( $sql, [ $lang, $admin, $page ], DByhteys::FETCH_ALL );
 
 		foreach ( $rows as $row ) {
 			$this->{$row->tyyppi} = $row->teksti;
@@ -24,31 +28,12 @@ class Language {
 
 	}
 
-	/**
-	 * @param DByhteys $db
-	 * @param string   $lang Three character language code ISO 639-2/T
-	 * @param bool     $admin
-	 * @param string   $page Sivu jonka käännökset haetaan
-	 *
-	 * @return stdClass
-	 */
-	static function fetch( DByhteys $db, string $lang, bool $admin, string $page ) : stdClass {
-
-		$sql = "select tyyppi, teksti 
-				from lang
-				where lang = ? 
-				  and (admin = ? or admin is null)
-				  and (sivu = ? or sivu is null)";
-		$rows = $db->query( $sql, [ $lang, $admin, $page ], DByhteys::FETCH_ALL );
-
-		$new_lang_object = new stdClass();
-
-		$new_lang_object->lang = $lang;
-
-		foreach ( $rows as $row ) {
-			$new_lang_object->{$row->tyyppi} = $row->teksti;
+	function __get( $name ) {
+		if ( !isset($this->{$name}) ) {
+			return "UNDEFINED {$name}";
 		}
-		return $new_lang_object;
+
+		return $this->{$name};
 	}
 
 }
