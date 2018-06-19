@@ -5,7 +5,13 @@
  */
 class Language extends stdClass {
 
+	/**
+	 * @var string $lang Three character language code ISO 639-2/T
+	 */
+	public $lang;
+
 	public $HTML_TITLE;
+	public $HTML_FOOTER;
 
 	/**
 	 * @param DByhteys $db
@@ -15,7 +21,7 @@ class Language extends stdClass {
 	 */
 	function __construct( DByhteys $db, string $lang, bool $admin, string $page ) {
 
-		$sql = "select tyyppi, teksti 
+		$sql = "select tyyppi, teksti
 				from lang
 				where lang = ? 
 				  and admin = ?
@@ -26,6 +32,7 @@ class Language extends stdClass {
 			$this->{$row->tyyppi} = $row->teksti;
 		}
 
+		$this->lang = $lang;
 	}
 
 	function __get( $name ) {

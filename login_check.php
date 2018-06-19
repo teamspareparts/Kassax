@@ -97,7 +97,6 @@ if ( $mode === "login" ) {
 
 		$_SESSION[ 'id' ] = (int)$user->id;
 		$_SESSION[ 'yritys_id' ] = (int)$user->yritys_id;
-		$_SESSION[ 'lang' ] = (int)$user->kieli;
 
 		$config = parse_ini_file( "./config/config.ini.php" );
 		$_SESSION[ 'indev' ] = (bool)$config[ 'indev' ];

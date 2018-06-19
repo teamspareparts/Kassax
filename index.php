@@ -141,9 +141,15 @@ $css_version = filemtime( 'css/login.css' );
 </main>
 
 <footer class="footer">
-	<span>
+	<span class="centered">
 		Kassax
 	</span>
+	<div class="footer-settings">
+		<span><i class="material-icons">language</i></span>
+		<div class="dropdown-content">
+			<p>Hello world!</p>
+		</div>
+	</div>
 </footer>
 
 <script>

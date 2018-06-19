@@ -10,12 +10,12 @@
 
 <header>
 
-	<section class="d-flex flex-row align-items-center" id="css-headertop">
+	<section class="d-flex flex-row align-items-center hidden" id="css-headertop">
 		<div>
-			<a href="./index.php"> <img src="./../img/kassax_logo.jpg"> </a>
+			<a href="./index.php"> <img src="./../img/kassax_logo.jpg" height="30px"> </a>
 		</div>
-		<div class="container" id="head_info">
-			WIP HEADER TESTING
+		<div class="container">
+			<?= $lang->HEADER_WELCOME ?>
 		</div>
 	</section>
 
@@ -62,7 +62,7 @@
 			<li><a href='#'>Raportit</a></li>
 
 			<li class="last">
-				<a href="../logout.php?redir=5">Kirjaudu ulos <i class="material-icons">exit_to_app</i></a>
+				<a href="../logout.php">Kirjaudu ulos <i class="material-icons">exit_to_app</i></a>
 			</li>
 		</ul>
 	</nav>

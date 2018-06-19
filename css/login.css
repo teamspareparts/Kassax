@@ -3,15 +3,16 @@
 	Kirjautumissivu
 *********************************************/
 html {
+	position: relative;
 	min-height: 100%;
-	height: 100%;
+	/*height: 100%;*/
 	font-size: 1em;
 	line-height: 1.4;
 }
 
 body {
-	height: 100%;
-	position: relative;
+	/*height: 100%;*/
+	/*position: relative;*/
 	background-color: white;
 	font-family: Helvetica, 'Open Sans', sans-serif;
 	margin: 0;
@@ -22,8 +23,13 @@ body {
 
 main.login_container {
 	display: block;
-	margin: auto; /* Keskittää */
+	/* Keskittää */
 	width: 430px; /* Chosen by trial and error */
+	margin: auto auto 3em;
+}
+
+main.login_container:last-child {
+	margin-bottom: 40px;
 }
 
 img {
@@ -89,17 +95,6 @@ input[type=submit]:disabled { color:dimgrey; background-color: darkgrey; border-
 	text-shadow: none;
 }
 
-.footer {
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	padding: .4rem;
-	background-color: #2f5cad;
-	color: white;
-	text-align: center;
-}
-
 /* A better looking default horizontal rule */
 hr {
 	display: block;
@@ -132,6 +127,58 @@ hr {
 .info { background-color: lightsteelblue; }
 .warning { background-color: lightgoldenrodyellow; }
 
-* {
-	/*outline: 1px solid black; */
+/********************************************
+	Footer
+	Dropdown
+********************************************/
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 1.5em;
+	padding: .4em 0;
+	background-color: #2f5cad;
+	color: white;
+	text-align: center;
+}
+
+.footer-settings {
+	position: relative;
+	display: inline-block;
+	float: right;
+	padding-right: 1em;
+}
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	padding: 12px 16px;
+	z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
+/********************************************
+	Material icons centering
+********************************************/
+.material-icons {
+	vertical-align: middle !important;
+}
+
+.centered {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	/* bring your own prefixes */
+	transform: translate(-50%, -50%);
 }
