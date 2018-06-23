@@ -1,4 +1,5 @@
+.idea/
+cfg/log.txt
+for_testing.php
 test_js.php
 test_php.php
-.idea/
-for_testing.php
