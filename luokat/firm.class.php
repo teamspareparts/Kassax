@@ -31,8 +31,11 @@ class Firm {
 	public $logo;
 	/** @var boolean $aktiivinen */
 	public $aktiivinen;
-	/** @var bool $yllapitaja */
+	/** @var int $yllapitaja_kayttaja */
+	public $admin_id;
+	/** @var bool $yllapitaja Firman ylläpitäjän id.*/
 	public $yllapitaja;
+
 
 	/**
 	 * Yritys-luokan konstruktori.<p>
@@ -45,7 +48,7 @@ class Firm {
 	public function __construct( DByhteys $db = null, int $yritys_id = null ) {
 		if ( $db !== null and $yritys_id !== null ) {
 			$sql = "select id, y_tunnus, yritystunniste, nimi, katuosoite, postinumero, 
-						postitoimipaikka, maa, puhelin, www_url, email, logo, aktiivinen
+						postitoimipaikka, maa, puhelin, www_url, email, logo, aktiivinen, admin_id, yllapitaja
 					from yritys 
 					where yritys.id = ? 
 					limit 1";
@@ -59,15 +62,119 @@ class Firm {
 		}
 	}
 
-	// TODO : Kesken
-	public function setFirmInfos( DByhteys $db, array $values ) {
+	/**
+	 * @param DByhteys $db
+	 * @param string $katuosoite
+	 * @param string $postinumero
+	 * @param string $postitoimipaikka
+	 * @param string $maa
+	 * @param string $puhelin
+	 * @param string $url
+	 * @param string $sahkoposti
+	 * @param string $logo
+	 * @param array $pankkitilit
+	 * @return bool
+	 */
+	public function updateFirm( DByhteys $db, string $katuosoite, string $postinumero, string $postitoimipaikka,
+	                            string $maa, string $puhelin, string $url, string $sahkoposti, string $logo,
+	                            array $pankkitilit ) : bool {
 		$sql = "update yritys
-				set id = id
+				set katuosoite = ?, postinumero = ?, postitoimipaikka = ?, maa = ?,
+					puhelin = ?, www_url = ?, email = ?, logo = ?
 				where id = ?";
-		$db->query($sql, [$this->id]);
+		$result = $db->query($sql, [$katuosoite, $postinumero, $postitoimipaikka, $maa,
+			$puhelin, $url, $sahkoposti, $logo, $this->id]);
+		if ( !$result ) {
+			return false;
+		}
+		$result = $this->updateFirmBankAccounts($db, $pankkitilit);
+		if ( !$result ) {
+			return false;
+		}
+		return true;
 	}
 
+	/**
+	 * @param DByhteys $db
+	 * @param array $pankkitilit
+	 * @return bool
+	 */
+	private function updateFirmBankAccounts( DByhteys $db, array $pankkitilit ) : bool {
+		$sql = "delete from yritys_pankkitili where yritys_id = ?";
+		$db->query($sql, [$this->id]);
+		foreach ( $pankkitilit as $pankkitili ) {
+			$sql = "insert into yritys_pankkitili (yritys_id, pankkitili) 
+					VALUES(?,?)";
+			$result = $db->query($sql, [$this->id, $pankkitili]);
+			if ( !$result ) {
+				return false;
+			}
+		}
+		return true;
+	}
 
+	private function updateFirmAdmin( DByhteys $db, int $user_id ) {
+		$sql = "update yritys set yllapitaja = ? where id = ?";
+		$db->query($sql, [$user_id, $this->id]);
+	}
+
+	/**
+	 * @param DByhteys $db
+	 * @param string $kayttajatunnus
+	 * @param string $salasana
+	 * @return bool
+	 */
+	public function createUser( DByhteys $db, string $kayttajatunnus, string $salasana, bool $yllapitaja ) : bool {
+		if ( $this->userExists($db, $kayttajatunnus) ) {
+			return false;
+		}
+		$salasana_hash = password_hash($salasana, PASSWORD_DEFAULT);
+		$sql = "insert into kayttaja (yritys_id, kayttajatunnus, salasana, salasana_uusittava) values(?,?,?,1)";
+		$db->query($sql, [$this->id, $kayttajatunnus, $salasana_hash]);
+		if ( $yllapitaja ) {
+			$user_id = $this->getUserIdByUsername($db, $kayttajatunnus);
+			$this->updateFirmAdmin($db, $user_id);
+		}
+		return true;
+	}
+
+	/**
+	 * @param DByhteys $db
+	 * @param int $user_id
+	 * @return bool
+	 */
+	public function deleteUser( DByhteys $db, int $user_id ) : bool {
+		$sql = "update kayttaja set aktiivinen = 0 and salasana_uusittava = 1 where id = ? and yritys_id = ?";
+		$result = $db->query($sql, [$user_id, $this->id]);
+		if ( $result ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @param DByhteys $db
+	 * @param string $kayttajatunnus
+	 * @return bool
+	 */
+	private function userExists( DByhteys $db, string $kayttajatunnus ) : bool {
+		$sql = "select id from kayttaja where yritys_id = ? and kayttajatunnus = ? limit 1";
+		$result = $db->query($sql, [$this->id, $kayttajatunnus]);
+		if ( $result ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @param DByhteys $db
+	 * @param $yritystunniste
+	 * @return int|null
+	 */
+	private function getUserIdByUsername( DByhteys $db, $kayttajatunnus ) {
+		$sql = "select id from kayttaja where kayttajatunnus = ? and yritys_id = ?";
+		return $db->query($sql, [$kayttajatunnus, $this->id]);
+	}
 
 	/**
 	 * Palauttaa, onko olio käytettävissä, eikä NULL.

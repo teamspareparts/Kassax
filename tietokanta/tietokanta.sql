@@ -22,6 +22,7 @@ create table if not exists yritys (
 	email            varchar(255),
 	logo             varchar(255) comment 'Tiedosto-polku',
 	aktiivinen       boolean           not null default true,
+  admin_id         smallint unsigned default null, -- FK
 	yllapitaja       boolean           not null default false,
 	primary key (id),
 	unique key (y_tunnus),
@@ -85,6 +86,7 @@ create table if not exists kayttaja (
 	id                  smallint unsigned not null auto_increment, -- PK
 	yritys_id           smallint unsigned not null, -- FK
 	kayttajatunnus      varchar(255)      not null comment 'Kirjautumista varten',
+  nimi                varchar(255)      null     default null,
 	salasana            varchar(255)      not null comment 'Hashed & salted',
 	salasana_vaihdettu  timestamp                  default CURRENT_TIMESTAMP
 											comment 'Milloin viimeksi salasana vaihdettu',
@@ -153,3 +155,9 @@ create table if not exists lang (
 	default charset = utf8
 	collate = utf8_swedish_ci
 	auto_increment = 1;
+
+/**
+ * Lisätään fk_yritys_kayttaja yritys tauluun.
+ */
+alter table yritys
+  add constraint fk_yritys_kayttaja foreign key (admin_id) references kayttaja (id)

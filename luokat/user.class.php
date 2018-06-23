@@ -21,6 +21,8 @@ class User {
 	public $aktiivinen;
 	/** @var bool $yllapitaja */
 	public $yllapitaja;
+	/** @var bool $yritys_yllapitaja */
+	public $yritys_yllapitaja;
 	/** @var string $kieli */
 	public $kieli;
 
@@ -35,7 +37,8 @@ class User {
 	public function __construct( DByhteys $db = null, int $user_id = null ) {
 		if ( $user_id !== null ) { // Varmistetaan parametrin oikeellisuus
 			$sql = "select kayttaja.id, yritys.id, salasana, salasana_vaihdettu, salasana_uusittava,
-						viime_kirjautuminen, kayttaja.aktiivinen, yritys.yllapitaja, kieli
+						viime_kirjautuminen, kayttaja.aktiivinen, yritys.yllapitaja, kieli,
+						if(yritys.admin_id = kayttaja.id, true, false) as yritys_yllapitaja
 					from kayttaja 
 						join yritys on kayttaja.yritys_id = yritys.id
 					where kayttaja.id = ? AND kayttaja.aktiivinen = 1
@@ -59,6 +62,8 @@ class User {
 	 * @return bool
 	 */
 	public function setPassword( DByhteys $db = null, string $password_old, string $password_new, string $password_new_check ) : bool {
+		// TODO : salasanan_vanhentuminen -> config
+		$salasanan_vanhentuminen = 100000;
 		if ( !password_verify( $password_old, $this->salasana ) ) {
 			return false;
 		}
@@ -70,17 +75,21 @@ class User {
 				set kayttaja.salasana = ?, kayttaja.salasana_vaihdettu = NOW(),
 					kayttaja.salasana_uusittava = NOW() + INTERVAL ? DAY
 				WHERE kayttaja.id = ?";
-		// TODO : SalasanaUusittava -> config
-		$db->query($sql, [ $password_hash, 180, $this->id ]);
+		$db->query($sql, [ $password_hash, $salasanan_vanhentuminen, $this->id ]);
 		return true;
 	}
 
-	// TODO : Kesken
-	public function setUserInfos( DByhteys $db = null, array $values ) {
+	/**
+	 * @param DByhteys $db
+	 * @param string $nimi
+	 * @return bool
+	 */
+	public function setUserInfos( DByhteys $db, string $nimi ) : bool {
 		$sql = "update kayttaja 
-				set id = id
+				set nimi = ?
 				WHERE kayttaja.id = ?";
-		$db->query($sql, [$this->id]);
+		$db->query($sql, [$nimi, $this->id]);
+		return true;
 	}
 
 	/**
@@ -98,15 +107,22 @@ class User {
 	 * Palauttaa TRUE jos käyttäjä on ylläpitäjä, ja false muussa tapauksessa.
 	 * @return bool <p> Ylläpitäjä-arvon tarkistuksen tulos
 	 */
-	public function isAdmin(): bool {
+	public function isAdmin() : bool {
 		return ($this->yllapitaja === 1);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isFirmAdmin() : bool {
+		return ($this->yritys_yllapitaja === true);
 	}
 
 	/**
 	 * Palauttaa, onko olio käytettävissä (ei NULL).
 	 * @return bool
 	 */
-	public function isValid(): bool {
+	public function isValid() : bool {
 		return ($this->id !== null);
 	}
 }

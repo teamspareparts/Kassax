@@ -9,10 +9,11 @@ class Firms
 	 * @param DByhteys $db
 	 * @param string $y_tunnus
 	 * @param string $yritystunniste
+	 * @param string $nimi
 	 * @return bool
 	 */
 	public static function createFirm( DByhteys $db, string $y_tunnus, string $yritystunniste, string $nimi ) : bool {
-		if ( self::firmExists($db, $y_tunnus, $yritystunniste) ) {
+		if ( self::checkForDuplicateIdentifiers($db, $y_tunnus, $yritystunniste) ) {
 			return false;
 		}
 		$sql = "insert into yritys (y_tunnus, yritystunniste, nimi) values(?,?,?)";
@@ -55,7 +56,7 @@ class Firms
 	 * @param string $yritystunniste
 	 * @return bool
 	 */
-	public static function checkForDuplicates( DByhteys $db, string $y_tunnus, string $yritystunniste ) : bool {
+	public static function checkForDuplicateIdentifiers( DByhteys $db, string $y_tunnus, string $yritystunniste ) : bool {
 		$sql = "select id from yritys where y_tunnus = ? or yritystunniste = ? limit 1";
 		$result = $db->query($sql , [$y_tunnus, $yritystunniste]);
 		if ( $result ) {
@@ -68,7 +69,7 @@ class Firms
 	 * @param string $yritystunniste
 	 * @return stdClass
 	 */
-	public static function getFirmIdByIdentifier( DByhteys $db, string $yritystunniste ) {
+	public static function getFirmIdByFirmLoginName( DByhteys $db, string $yritystunniste ) {
 		$sql = "select id from yritys where yritystunniste = ?";
 		return $db->query($sql, [$yritystunniste]);
 	}
