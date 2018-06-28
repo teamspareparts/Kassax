@@ -11,7 +11,7 @@ MEDIUMINT   |   8388607 / 16777215
 create table if not exists yritys (
 	id               smallint unsigned not null auto_increment, -- PK
 	y_tunnus         varchar(9)        not null, -- UK
-	yritystunniste   varchar(50)       not null	comment 'Kirjautumista varten', -- UK
+	yritystunniste   varchar(50)       not null comment 'Kirjautumista varten', -- UK
 	nimi             varchar(255)      not null,
 	katuosoite       varchar(255),
 	postinumero      varchar(10),
@@ -21,9 +21,8 @@ create table if not exists yritys (
 	www_url          varchar(255) comment 'Yrityksen WWW-osoite',
 	email            varchar(255),
 	logo             varchar(255) comment 'Tiedosto-polku',
-	aktiivinen       boolean           not null default true,
-  admin_id         smallint unsigned default null, -- FK
-	yllapitaja       boolean           not null default false,
+	aktiivinen       boolean           not null  default true,
+	yllapitaja       boolean           not null  default false,
 	primary key (id),
 	unique key (y_tunnus),
 	unique key (yritystunniste)
@@ -42,8 +41,7 @@ create table if not exists yritys_pankkitili (
 )
 	default charset = utf8
 	collate = utf8_swedish_ci
-	auto_increment = 1
-	comment 'Yrityksen pankkitili';
+	auto_increment = 1;
 
 
 create table if not exists toimittaja (
@@ -92,8 +90,9 @@ create table if not exists kayttaja (
 											comment 'Milloin viimeksi salasana vaihdettu',
 	salasana_uusittava  boolean           not null default 0,
 	viime_kirjautuminen timestamp         null     default null,
-	aktiivinen          boolean           not null default true,
 	kieli               varchar(3)        not null default 1 comment 'Three character language code ISO 639-2/T',
+	aktiivinen          boolean           not null default true,
+	yllapitaja          boolean           not null default false,
 	primary key (id),
 	constraint fk_kayttaja_yritys foreign key (yritys_id) references yritys (id)
 )
@@ -120,11 +119,11 @@ create table if not exists tuote (
 
 create table if not exists toimittaja_nto (
 	tuote_id       smallint unsigned not null, -- PK FK
-	yritys_id      smallint unsigned not null, -- PK FK
+	toimittaja_id  smallint unsigned not null, -- PK FK
 	toimittaja_nto smallint unsigned not null, -- FK
-	primary key (tuote_id, yritys_id),
+	primary key (tuote_id, toimittaja_id),
 	constraint fk_toimittajanto_tuote foreign key (tuote_id) references tuote (id),
-	constraint fk_toimittajanto_yritys foreign key (yritys_id) references yritys (id)
+	constraint fk_toimittajanto_toimittaja foreign key (toimittaja_id) references toimittaja (id)
 )
 	default charset = utf8
 	collate = utf8_swedish_ci
@@ -155,9 +154,3 @@ create table if not exists lang (
 	default charset = utf8
 	collate = utf8_swedish_ci
 	auto_increment = 1;
-
-/**
- * Lisätään fk_yritys_kayttaja yritys tauluun.
- */
-alter table yritys
-  add constraint fk_yritys_kayttaja foreign key (admin_id) references kayttaja (id)
