@@ -36,12 +36,13 @@ class User {
 	 */
 	public function __construct( DByhteys $db = null, int $user_id = null ) {
 		if ( $user_id !== null ) { // Varmistetaan parametrin oikeellisuus
-			$sql = "select kayttaja.id, yritys.id, salasana, salasana_vaihdettu, salasana_uusittava,
-						viime_kirjautuminen, kayttaja.aktiivinen, yritys.yllapitaja, kieli,
+			$sql = "select kayttaja.id, salasana, salasana_vaihdettu, salasana_uusittava,
+						viime_kirjautuminen, kayttaja.aktiivinen, yritys.yllapitaja, kieli, yllapitaja,
 						if(yritys.admin_id = kayttaja.id, true, false) as yritys_yllapitaja
 					from kayttaja 
 						join yritys on kayttaja.yritys_id = yritys.id
-					where kayttaja.id = ? AND kayttaja.aktiivinen = 1
+					where kayttaja.id = ? 
+						and kayttaja.aktiivinen = 1
 					limit 1";
 			$row = $db->query( $sql, [ $user_id ] );
 
