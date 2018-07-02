@@ -89,12 +89,8 @@ if ( !$user->isAdmin() ) {
 
 /*
  * Haetaan kieli viimeisenä, ensinnäkin koska se vaatii validin käyttäjän,
- * ja toiseksi, koska se saattaa hakea aika paljon tietokannasta.(?)
+ * ja toiseksi, koska se saattaa hakea aika paljon tietokannasta.
  */
-//$lang = Language::fetch(
-//	$db, $user->kieli, $user->isAdmin(), basename( $_SERVER[ 'SCRIPT_NAME' ] , '.php' )
-//);
-
 $lang = new Language(
 	$db, $user->kieli, $user->isAdmin(), basename( $_SERVER[ 'SCRIPT_NAME' ] , '.php' )
 );
