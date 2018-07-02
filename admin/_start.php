@@ -63,29 +63,23 @@ session_start();
  */
 $db = new DByhteys();
 $user = new User( $db, $_SESSION['id'] );
+$comp = new Firm( $db, $user->yritys_id );
 
 /*
  * Tarkistetaan, että käyttäjä on olemassa, ja oikea, ja kirjautunut sisään.
  */
-if ( !$user->isValid() ) {
+if ( !$user->isValid() or !$comp->isValid() ) {
 	$_SESSION['redirect_url'] = $_SERVER['REQUEST_URI'];
 	header( 'Location: ../logout.php?redir=10' );
-	exit;
+	//exit;
+	debug( $user );
+	debug( $comp );
 }
 
-if ( !$user->isAdmin() ) {
+if ( !$comp->isAdmin() ) {
 	header("Location: client/index.php");
 	exit();
 }
-
-/*
- * Lisäksi tarkistetaan EULA, jotta käyttäjä ei pysty käyttämään sivustoa ilman hyväksyntää.
- */
-//elseif ( !$user->eulaHyvaksytty() ) {
-//	$_SESSION['feedback'] .= "<p class='warning'>Eula ei hyväksytty</p>";
-//	//$_SESSION['redirect_url'] = $_SERVER['REQUEST_URI'];
-//    //header( 'Location: eula.php' ); exit;
-//}
 
 /*
  * Haetaan kieli viimeisenä, ensinnäkin koska se vaatii validin käyttäjän,

@@ -1,7 +1,19 @@
 {
 	"admin": {
+		"_common": {
+			"page": "_common",
+			"strings": {
+				"HTML_TITLE": "Kassax admin"
+			}
+		},
 	},
 	"client": {
+		"_common": {
+			"page": "_common",
+			"strings": {
+				"HTML_TITLE": "Kassax client"
+			}
+		},
 		"login": {
 			"page": "login",
 			"strings": {

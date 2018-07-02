@@ -144,12 +144,14 @@ $css_version = filemtime( 'css/login.css' );
 	<span class="centered">
 		Kassax
 	</span>
+	<!-- Failed attempt to include language dropup menu to footer --JJ 180702
 	<div class="footer-settings">
 		<span><i class="material-icons">language</i></span>
 		<div class="dropdown-content">
 			<p>Hello world!</p>
 		</div>
 	</div>
+	-->
 </footer>
 
 <script>

@@ -146,8 +146,8 @@ create table if not exists tuote_ostotarjoushinta (
 create table if not exists lang (
 	lang   varchar(3)   not null comment 'Three character language code ISO 639-2/T', -- PK
 	admin  boolean      not null comment 'Client vai admin puoli sivustosta', -- PK
-	sivu   varchar(10)  not null comment 'Millä sivulla teksti on', -- PK
-	tyyppi varchar(30)  not null comment 'Mikä teksti kyseessä', -- PK
+	sivu   varchar(25)  not null comment 'Millä sivulla teksti on', -- PK
+	tyyppi varchar(25)  not null comment 'Mikä teksti kyseessä', -- PK
 	teksti varchar(255) not null,
 	primary key (lang, admin, sivu, tyyppi)
 )

@@ -25,7 +25,7 @@ class Language extends stdClass {
 				from lang
 				where lang = ? 
 				  and admin = ?
-				  and (sivu = ? or sivu is null)";
+				  and (sivu = ? or sivu = '_common')";
 		$rows = $db->query( $sql, [ $lang, $admin, $page ], DByhteys::FETCH_ALL );
 
 		foreach ( $rows as $row ) {

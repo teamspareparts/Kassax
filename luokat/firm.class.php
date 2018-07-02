@@ -31,8 +31,6 @@ class Firm {
 	public $logo;
 	/** @var boolean $aktiivinen */
 	public $aktiivinen;
-	/** @var int $yllapitaja_kayttaja */
-	public $admin_id;
 	/** @var bool $yllapitaja Firman ylläpitäjän id.*/
 	public $yllapitaja;
 
@@ -48,7 +46,7 @@ class Firm {
 	public function __construct( DByhteys $db = null, int $yritys_id = null ) {
 		if ( $db !== null and $yritys_id !== null ) {
 			$sql = "select id, y_tunnus, yritystunniste, nimi, katuosoite, postinumero, 
-						postitoimipaikka, maa, puhelin, www_url, email, logo, aktiivinen, admin_id, yllapitaja
+						postitoimipaikka, maa, puhelin, www_url, email, logo, aktiivinen, yllapitaja
 					from yritys 
 					where yritys.id = ? 
 					limit 1";
@@ -182,5 +180,13 @@ class Firm {
 	 */
 	public function isValid() {
 		return (($this->id !== null) && ($this->aktiivinen != 0));
+	}
+
+	/**
+	 * Palauttaa TRUE jos käyttäjä on ylläpitäjä, ja false muussa tapauksessa.
+	 * @return bool <p> Ylläpitäjä-arvon tarkistuksen tulos
+	 */
+	public function isAdmin() : bool {
+		return ($this->yllapitaja === 1);
 	}
 }
