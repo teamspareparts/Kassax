@@ -120,7 +120,7 @@ $css_version = filemtime( 'css/login.css' );
 			</label>
 
 			<label><?= $lang->LOGIN_PASS ?>:
-				<input type="password" name="salasana" placeholder="<?= $lang->LOGIN_USER_PH ?>" pattern=".{5,255}$" required>
+				<input type="password" name="salasana" placeholder="<?= $lang->LOGIN_PASS_PH ?>" pattern=".{5,255}$" required>
 			</label>
 
 			<input type="hidden" name="mode" value="login">
