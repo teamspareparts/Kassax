@@ -24,31 +24,8 @@ tarkista_feedback_POST();
 
 	<hr>
 
-	<p class="hidden">Some text</p>
+	<p hidden>Some text</p>
 
-	<table style="width: 100%;">
-		<thead>
-			<tr><th colspan="6" class="center" style="background-color:#1d7ae2;">Testi table</th></tr>
-			<tr><th>Yritys</th>
-				<th>Y-tunnus</th>
-				<th>Osoite</th>
-				<th>Maa</th>
-				<th class="smaller_cell">Poista</th>
-				<th class=smaller_cell></th></tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>Yritys nimi</td>
-				<td>Y-tunnus</td>
-				<td>Katuosoite<br>80100 Joensuu</td>
-				<td>Suomi</td>
-				<td>[]</td>
-				<td>
-					<a href="#"><span class="nappi">Muokkaa</span></a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
 
 </main>
 

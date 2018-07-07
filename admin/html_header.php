@@ -4,13 +4,10 @@
 	<meta http-equiv="refresh" content="0; url=index.php">
 </noscript>
 
-<style>
-	#css-headertop { background-color: white; }
-</style>
-
 <header>
 
-	<section class="d-flex flex-row align-items-center hidden" id="css-headertop">
+	<section class="d-flex flex-row align-items-center hidden"
+		style="background-color: white;">
 		<div>
 			<a href="./index.php"> <img src="./../img/kassax_logo.jpg" height="30px"> </a>
 		</div>
@@ -18,6 +15,7 @@
 			<?= $lang->HEADER_WELCOME ?>
 		</div>
 	</section>
+
 
 	<nav class="navbar navbar-expand-md navbar-light bg-light">
 		<!-- Brand & hamburger-icon -->
@@ -33,10 +31,10 @@
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link" href="#">Asiakkaat</a>
+					<a class="nav-link" href="#"><?= $lang->NAV_ITEM_1 ?></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Raportit</a>
+					<a class="nav-link" href="#"><?= $lang->NAV_ITEM_2 ?></a>
 				</li>
 			</ul>
 		</div>
@@ -44,27 +42,10 @@
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item">
-					<a class="nav-link" href="./../logout.php">Logout</a>
+					<a class="nav-link" href="./../logout.php"><?= $lang->NAV_LOGOUT ?></a>
 				</li>
 			</ul>
 		</div>
-	</nav>
-
-	<hr>
-
-	<nav class="navigationbar" id="navbar">
-		<ul>
-			<li><a href='./index.php' style="padding-left:15px; padding-right: 15px;">
-					<i class="material-icons" style="margin-top: -3px;">home</i></a>
-			</li>
-
-			<li><a href='#'>Asiakkaat</a></li>
-			<li><a href='#'>Raportit</a></li>
-
-			<li class="last">
-				<a href="../logout.php">Kirjaudu ulos <i class="material-icons">exit_to_app</i></a>
-			</li>
-		</ul>
 	</nav>
 
 </header>
