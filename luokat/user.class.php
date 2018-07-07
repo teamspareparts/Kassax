@@ -38,7 +38,7 @@ class User {
 		if ( $user_id !== null ) { // Varmistetaan parametrin oikeellisuus
 			$sql = "select kayttaja.id, salasana, salasana_vaihdettu, salasana_uusittava,
 						viime_kirjautuminen, kayttaja.aktiivinen, kieli, kayttaja.yllapitaja, 
-						yritys.yllapitaja as yritys_ylläpitaja 
+						yritys.yllapitaja as yritys_ylläpitaja, yritys_id 
 					from kayttaja 
 						join yritys on kayttaja.yritys_id = yritys.id
 					where kayttaja.id = ? 

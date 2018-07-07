@@ -71,14 +71,12 @@ $comp = new Firm( $db, $user->yritys_id );
 if ( !$user->isValid() or !$comp->isValid() ) {
 	$_SESSION['redirect_url'] = $_SERVER['REQUEST_URI'];
 	header( 'Location: ../logout.php?redir=10' );
-	//exit;
-	debug( $user );
-	debug( $comp );
+	exit;
 }
 
 if ( !$comp->isAdmin() ) {
-	header("Location: client/index.php");
-	exit();
+	header("Location: ../client/index.php");
+	exit;
 }
 
 /*

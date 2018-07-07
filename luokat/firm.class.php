@@ -187,6 +187,6 @@ class Firm {
 	 * @return bool <p> Ylläpitäjä-arvon tarkistuksen tulos
 	 */
 	public function isAdmin() : bool {
-		return ($this->yllapitaja === 1);
+		return ($this->yllapitaja == true);
 	}
 }

@@ -80,7 +80,7 @@ if ( $mode === "login" ) {
 	/** @var User $user */
 	$user = $db->query( $sql, [ $kayttaja, $yritys->id ], false, 'User' );
 
-	if ( $yritys AND $user ) {
+	if ( $yritys and $user ) {
 		beginning_user_checks( $user, $password );
 
 		/*
@@ -101,11 +101,13 @@ if ( $mode === "login" ) {
 		$config = parse_ini_file( "./config/config.ini.php" );
 		$_SESSION[ 'indev' ] = (bool)$config[ 'indev' ];
 
-		$redirect_url = !empty( $_SESSION[ 'redirect_url' ] )
-			? $_SESSION[ 'redirect_url' ]
-			: ( ($yritys->yllapitaja)
-				? './admin/'
-				: './client/' );
+		$redirect_url = ($yritys->isAdmin())
+			? './admin/'
+			: './client/';
+
+		if ( !empty( $_SESSION[ 'redirect_url' ] ) ) {
+			$redirect_url = $_SESSION[ 'redirect_url' ];
+		}
 
 		header( "Location:{$redirect_url}" );
 		exit;
