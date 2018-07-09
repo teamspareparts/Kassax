@@ -19,7 +19,8 @@
 		<div class="dropdown-menu dropdown-menu-right">
 
 			<div class="dropdown-divider"></div>
-			<p>Hello world!</p>
+			<p class="dropdown-item">Hello world!</p>
+			<div class="dropdown-divider"></div>
 		</div>
 
 	</div>
