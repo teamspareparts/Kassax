@@ -32,8 +32,6 @@ foreach ( $languages as $lang ) {
 		values ( ?,?,?,?,? )
 	";
 
-	debugC( count( $values ) );
-
 	$kysymysmerkit = str_repeat(',(?,?,?,?,?)', (int)((count($values)/5)-1));
 
 	$sql .= $kysymysmerkit;
