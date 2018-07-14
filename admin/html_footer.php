@@ -18,9 +18,12 @@
 
 		<div class="dropdown-menu dropdown-menu-right">
 
-			<div class="dropdown-divider"></div>
 			<p class="dropdown-item">Hello world!</p>
-			<div class="dropdown-divider"></div>
+			<hr>
+			<a class="dropdown-item" href="../tietokanta/lang_install.php">Language install</a>
+			<a class="dropdown-item" href="./languages.php">Language settings</a>
+			<hr>
+
 		</div>
 
 	</div>
