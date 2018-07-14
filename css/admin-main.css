@@ -112,3 +112,8 @@ hr {
 		-ms-transform: translate(-50%, -50%);
 			transform: translate(-50%, -50%);
 }
+
+.lang-json-submit {
+	height: 2em;
+	margin-top: 1em;
+}
