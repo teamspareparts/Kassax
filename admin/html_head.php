@@ -12,13 +12,16 @@
 	<!-- Material icons CSS -->
 	<link rel="stylesheet"
 	      href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<!-- Toastr CSS -->
+	<link rel="stylesheet"
+	      href="./../css/components/toastr.min.css">
 	<!-- Oma CSS -->
 	<link rel="stylesheet"
 	      href="./../css/admin-main.css">
 
 	<!-- JQuery -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	        integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+	        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 	        crossorigin="anonymous">
 	</script>
 	<!-- Popper.js , required by bootstrap -->
@@ -30,5 +33,10 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
 	        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
 	        crossorigin="anonymous">
+	</script>
+	<!-- toastr.js -->
+	<script src="./../js/toastr.min.js">
+	</script>
+	<script src="./../js/toastr-cfg.js">
 	</script>
 </head>
