@@ -56,6 +56,8 @@
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="#"><?= $lang->NAV_TEST_0 ?></a>
 						<a class="dropdown-item" href="#"><?= $lang->NAV_TEST_0 ?></a>
+						<hr>
+						<a class="dropdown-item" href="./company_add.php"><?= $lang->NAV_COMP_ADD ?></a>
 					</div>
 				</li>
 			</ul>
