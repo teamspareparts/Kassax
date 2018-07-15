@@ -115,7 +115,7 @@ class User {
 	/**
 	 * @return bool
 	 */
-	public function isFirmAdmin() : bool {
+	public function isCompanyAdmin() : bool {
 		return ($this->yritys_yllapitaja === true);
 	}
 

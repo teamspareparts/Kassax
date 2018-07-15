@@ -63,7 +63,7 @@ session_start();
  */
 $db = new DByhteys();
 $user = new User( $db, $_SESSION['id'] );
-$comp = new Firm( $db, $user->yritys_id );
+$comp = new Company( $db, $user->yritys_id );
 
 /*
  * Tarkistetaan, että käyttäjä on olemassa, ja oikea, ja kirjautunut sisään.

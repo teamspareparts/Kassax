@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class Firm
+ * Class Company
  */
-class Firm {
+class Company {
 
 	/** @var int $id */
 	public $id;
@@ -73,7 +73,7 @@ class Firm {
 	 * @param array $pankkitilit
 	 * @return bool
 	 */
-	public function updateFirm( DByhteys $db, string $katuosoite, string $postinumero, string $postitoimipaikka,
+	public function updateCompany( DByhteys $db, string $katuosoite, string $postinumero, string $postitoimipaikka,
 	                            string $maa, string $puhelin, string $url, string $sahkoposti, string $logo,
 	                            array $pankkitilit ) : bool {
 		$sql = "update yritys
@@ -85,7 +85,7 @@ class Firm {
 		if ( !$result ) {
 			return false;
 		}
-		$result = $this->updateFirmBankAccounts($db, $pankkitilit);
+		$result = $this->updateCompanyBankAccounts($db, $pankkitilit);
 		if ( !$result ) {
 			return false;
 		}
@@ -97,7 +97,7 @@ class Firm {
 	 * @param array $pankkitilit
 	 * @return bool
 	 */
-	private function updateFirmBankAccounts( DByhteys $db, array $pankkitilit ) : bool {
+	private function updateCompanyBankAccounts( DByhteys $db, array $pankkitilit ) : bool {
 		$sql = "delete from yritys_pankkitili where yritys_id = ?";
 		$db->query($sql, [$this->id]);
 		foreach ( $pankkitilit as $pankkitili ) {
@@ -111,7 +111,7 @@ class Firm {
 		return true;
 	}
 
-	private function updateFirmAdmin( DByhteys $db, int $user_id ) {
+	private function updateCompanyAdmin( DByhteys $db, int $user_id ) {
 		$sql = "update yritys set yllapitaja = ? where id = ?";
 		$db->query($sql, [$user_id, $this->id]);
 	}
@@ -131,7 +131,7 @@ class Firm {
 		$db->query($sql, [$this->id, $kayttajatunnus, $salasana_hash]);
 		if ( $yllapitaja ) {
 			$user_id = $this->getUserIdByUsername($db, $kayttajatunnus);
-			$this->updateFirmAdmin($db, $user_id);
+			$this->updateCompanyAdmin($db, $user_id);
 		}
 		return true;
 	}

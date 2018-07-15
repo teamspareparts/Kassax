@@ -1,9 +1,9 @@
 <?php
 /**
- * Class Firms
+ * Class Companies
  */
 
-class Firms
+class Companies
 {
 	/**
 	 * @param DByhteys $db
@@ -12,7 +12,7 @@ class Firms
 	 * @param string $nimi
 	 * @return bool
 	 */
-	public static function createFirm( DByhteys $db, string $y_tunnus, string $yritystunniste, string $nimi ) : bool {
+	public static function createCompany( DByhteys $db, string $y_tunnus, string $yritystunniste, string $nimi ) : bool {
 		if ( self::checkForDuplicateIdentifiers($db, $y_tunnus, $yritystunniste) ) {
 			return false;
 		}
@@ -26,7 +26,7 @@ class Firms
 	 * @param int $yritys_id
 	 * @return bool
 	 */
-	public static function deleteFirm( DByhteys $db, int $yritys_id ) : bool {
+	public static function deleteCompany( DByhteys $db, int $yritys_id ) : bool {
 		$sql = "update yritys set aktiivinen = 0 where id = ?";
 		$result = $db->query($sql,  [$yritys_id]);
 		if ( $result ) {
@@ -41,7 +41,7 @@ class Firms
 	 * @param string $yritystunniste
 	 * @return bool
 	 */
-	public static function firmExists( DByhteys $db, string $y_tunnus, string $yritystunniste ) : bool {
+	public static function CompanyExists( DByhteys $db, string $y_tunnus, string $yritystunniste ) : bool {
 		$sql = "select id from yritys where y_tunnus = ? and yritystunniste = ? limit 1";
 		$result = $db->query($sql , [$y_tunnus, $yritystunniste]);
 		if ( $result ) {
@@ -69,7 +69,7 @@ class Firms
 	 * @param string $yritystunniste
 	 * @return stdClass
 	 */
-	public static function getFirmIdByFirmLoginName( DByhteys $db, string $yritystunniste ) {
+	public static function getCompanyIdByCompanyLoginName( DByhteys $db, string $yritystunniste ) {
 		$sql = "select id from yritys where yritystunniste = ?";
 		return $db->query($sql, [$yritystunniste]);
 	}
