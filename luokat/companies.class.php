@@ -69,8 +69,9 @@ class Companies
 	 * @param string $yritystunniste
 	 * @return stdClass
 	 */
-	public static function getCompanyIdByCompanyLoginName( DByhteys $db, string $yritystunniste ) {
-		$sql = "select id from yritys where yritystunniste = ?";
-		return $db->query($sql, [$yritystunniste]);
+	public static function getCompanyIdByCompanyLoginName( DByhteys $db, string $yritystunniste ) : int {
+		$sql = "select id from yritys where yritystunniste = ? limit 1";
+		$result = $db->query($sql, [$yritystunniste]);
+		return $result ? $result->id : -1;
 	}
 }

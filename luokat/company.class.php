@@ -62,26 +62,17 @@ class Company {
 
 	/**
 	 * @param DByhteys $db
-	 * @param string $katuosoite
-	 * @param string $postinumero
-	 * @param string $postitoimipaikka
-	 * @param string $maa
-	 * @param string $puhelin
-	 * @param string $url
-	 * @param string $sahkoposti
-	 * @param string $logo
+	 * @param array $tiedot
 	 * @param array $pankkitilit
 	 * @return bool
 	 */
-	public function updateCompany( DByhteys $db, string $katuosoite, string $postinumero, string $postitoimipaikka,
-	                            string $maa, string $puhelin, string $url, string $sahkoposti, string $logo,
-	                            array $pankkitilit ) : bool {
+	public function updateCompany( DByhteys $db, array $tiedot, array $pankkitilit ) : bool {
+		array_push($tiedot, $this->id);
 		$sql = "update yritys
 				set katuosoite = ?, postinumero = ?, postitoimipaikka = ?, maa = ?,
 					puhelin = ?, www_url = ?, email = ?, logo = ?
 				where id = ?";
-		$result = $db->query($sql, [$katuosoite, $postinumero, $postitoimipaikka, $maa,
-			$puhelin, $url, $sahkoposti, $logo, $this->id]);
+		$result = $db->query($sql, array_values($tiedot));
 		if ( !$result ) {
 			return false;
 		}
