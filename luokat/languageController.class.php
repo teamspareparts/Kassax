@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * @class Language
+ * @class LanguageController
  */
 class LanguageController {
 
@@ -74,13 +74,58 @@ class LanguageController {
 	 * @param DByhteys $db
 	 * @return stdClass[] - lista tietokantaan tallennetuista sivuista.
 	 */
-	static function getSivut( DByhteys $db ) {
+	static function getAdminSivut( DByhteys $db ) {
 		$rows = $db->query(
-			"select distinct sivu from lang",
+			"select distinct sivu 
+					from lang 
+					where admin = 1",
 			[],
 			FETCH_ALL
 		);
 
 		return $rows;
+	}
+
+	/**
+	 * Lista kaikista sivuista, joilla on merkkijonoja tietokannassa.
+	 * Huom. joillakin kielillä ei saata olla kaikkia sivuja.
+	 * @param DByhteys $db
+	 * @return stdClass[] - lista tietokantaan tallennetuista sivuista.
+	 */
+	static function getClientSivut( DByhteys $db ) {
+		$rows = $db->query(
+			"select distinct sivu 
+					from lang
+					where admin = 0",
+			[],
+			FETCH_ALL
+		);
+
+		return $rows;
+	}
+
+	static function getKaikkiTekstit( DByhteys $db, array $kielet, array $ad_cl, array $sivut ) {
+		$array = array();
+
+		$sql = "select tyyppi, teksti
+				from lang
+				where lang = ? 
+				  and admin = ?
+				  and sivu = ?";
+
+		foreach ( $kielet as $k ) {
+			foreach ( $ad_cl as $a_c => $value ) {
+				foreach ( $sivut[$a_c] as $s ) {
+					$array[$k->lang][$a_c][$s->sivu] =
+						$db->query(
+							$sql,
+							[ $k->lang , ($a_c=='ad') , $s->sivu ],
+							FETCH_ALL
+						);
+				}
+			}
+		}
+
+		return $array;
 	}
 }
