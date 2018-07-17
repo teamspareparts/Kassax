@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 require '_start.php';
 /**
- * @var $db DByhteys
+ * @var $db   DByhteys
  * @var $user User
  * @var $lang Language
  */
@@ -9,12 +9,18 @@ require '_start.php';
 tarkista_feedback_POST();
 
 $kielet = LanguageController::getLanguages( $db );
-$sivut = LanguageController::getSivut( $db );
+$ad_cl = [ 'ad' => 'Admin' , 'cl' => 'Client' ];
+$sivut = [
+	'ad' => LanguageController::getAdminSivut( $db ) ,
+	'cl' => LanguageController::getClientSivut( $db )
+];
 
 $json_files = array();
 foreach ( $kielet as $k ) {
-	$json_files[$k->lang] = file_get_contents( "../lang/{$k->lang}.json" );
+	$json_files[ $k->lang ] = file_get_contents( "../lang/{$k->lang}.json" );
 }
+
+$lang_strings = LanguageController::getKaikkiTekstit( $db , $kielet , $ad_cl , $sivut );
 ?>
 
 <!DOCTYPE html>
@@ -55,58 +61,108 @@ foreach ( $kielet as $k ) {
 			<nav>
 				<div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
 					<?php foreach ( $kielet as $k ) : ?>
-						<a class="nav-item nav-link"
-						   id="nav-db-<?= $k->lang ?>-tab"
-						   data-toggle="tab"
-						   href="#nav-db-<?= $k->lang ?>"
-						   role="tab" aria-controls="nav-db-<?= $k->lang ?>" aria-selected="true">
-							<?= $k->lang ?>
-						</a>
+					<a class="nav-item nav-link"
+					   id="nav-db-<?= $k->lang ?>-tab"
+					   data-toggle="tab"
+					   href="#nav-db-<?= $k->lang ?>"
+					   role="tab" aria-controls="nav-db-<?= $k->lang ?>" aria-selected="true">
+						<?= $k->lang ?>
+					</a>
 					<?php endforeach; ?>
 				</div>
 			</nav>
 
 			<!-- DB LANG TAB CONTENTS -->
-			<div class="tab-content" id="nav-tabDBContent">
+			<div class="tab-content" id="nav-tabDBContent" style="border-top: 1px solid #2f5cad">
 
 				<?php foreach ( $kielet as $k ) : ?>
-					<div class="tab-pane fade bg-white" id="nav-db-<?= $k->lang ?>"
-					     role="tabpanel" aria-labelledby="nav-db-<?= $k->lang ?>-tab">
+				<div class="tab-pane fade bg-white" id="nav-db-<?= $k->lang ?>"
+				     role="tabpanel" aria-labelledby="nav-db-<?= $k->lang ?>-tab">
 
-						<!-- PAGES TABS :: _common / index / ... -->
-						<nav>
-							<div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
-								<?php foreach ( $sivut as $s ) : ?>
-									<a class="nav-item nav-link" id="nav-db-<?= $k->lang ?>-<?= $s->sivu ?>-tab"
+					<!-- DB LANG ADMIN/CLIENT TABS -->
+					<nav>
+						<div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
+							<?php foreach ( $ad_cl as $a_c => $value ) : ?>
+								<a class="nav-item nav-link"
+								   id="nav-db-<?= $k->lang ?>-<?= $a_c ?>-tab"
+								   data-toggle="tab"
+								   href="#nav-db-<?= $k->lang ?>-<?= $a_c ?>"
+								   role="tab" aria-controls="nav-db-<?= $k->lang ?>-<?= $a_c ?>"
+								   aria-selected="true">
+									<?= $value ?>
+								</a>
+							<?php endforeach; ?>
+						</div>
+					</nav>
+
+					<!-- DB LANG ADMIN/CLIENT TAB CONTENTS -->
+					<div class="tab-content" id="nav-tabDB_adCl_Content" style="border-top: 1px solid #2f5cad">
+
+						<?php foreach ( $ad_cl as $a_c => $value ) : ?>
+						<div class="tab-pane fade bg-white" id="nav-db-<?= $k->lang ?>-<?= $a_c ?>"
+						     role="tabpanel" aria-labelledby="nav-db-<?= $k->lang ?>-<?= $a_c ?>-tab">
+
+							<!-- PAGES TABS :: _common / index / ... -->
+							<nav>
+								<div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
+									<?php foreach ( $sivut[ $a_c ] as $s ) : ?>
+									<a class="nav-item nav-link"
+									   id="nav-db-<?= $k->lang ?>-<?= $a_c ?>-<?= $s->sivu ?>-tab"
 									   data-toggle="tab"
-									   href="#nav-db-<?= $k->lang ?>-<?= $s->sivu ?>"
+									   href="#nav-db-<?= $k->lang ?>-<?= $a_c ?>-<?= $s->sivu ?>"
 									   role="tab"
-									   aria-controls="nav-db-<?= $k->lang ?>-<?= $s->sivu ?>" aria-selected="true">
+									   aria-controls="nav-db-<?= $k->lang ?>-<?= $a_c ?>-<?= $s->sivu ?>"
+									   aria-selected="true">
 										<?= $s->sivu ?>
 									</a>
-								<?php endforeach; ?>
-							</div>
-						</nav>
+									<?php endforeach; ?>
+								</div>
+							</nav>
 
-						<!-- PAGES TAB CONTENTS -->
-						<div class="tab-content" id="nav-tabDBpageContent">
+							<!-- PAGES TAB CONTENTS -->
+							<div class="tab-content" id="nav-tabDBpageContent">
 
-							<?php foreach ( $sivut as $s ) : ?>
-								<div class="tab-pane fade bg-white" id="nav-db-<?= $k->lang ?>-<?= $s->sivu ?>"
-								     role="tabpanel" aria-labelledby="nav-db-<?= $k->lang ?>-<?= $s->sivu ?>-tab">
+								<?php foreach ( $sivut[ $a_c ] as $s ) : ?>
+								<div class="tab-pane fade bg-white"
+								     id="nav-db-<?= $k->lang ?>-<?= $a_c ?>-<?= $s->sivu ?>"
+								     role="tabpanel"
+								     aria-labelledby="nav-db-<?= $k->lang ?>-<?= $a_c ?>-<?= $s->sivu ?>-tab">
 
-									<form>
-										<label><?= $k->lang ?>
-											<input type="text" placeholder=" <?= $s->sivu ?> ">
-										</label>
+									<?php foreach (
+										$lang_strings[ $k->lang ][ $a_c ][ $s->sivu ] as $ss ) :
+										?>
+
+									<form method="post">
+										<div class="form-group">
+											<label>
+												<?= $ss->tyyppi ?>
+
+												<?php if ( count( $ss->tyyppi ) < 20 ) : ?>
+												<input type="text" placeholder=" <?= $ss->tyyppi ?> "
+												       class="form-control d-block" minlength="1"
+												       maxlength="255">
+												<?php else : ?>
+												<textarea wrap="soft" rows="3" class="form-control">
+												<?= $ss->teksti ?>
+												</textarea>
+												<?php endif; ?>
+
+											</label>
+											<input type="submit" value="Päivitä">
+										</div>
 									</form>
+									<?php endforeach; ?>
 
 								</div>
-							<?php endforeach; ?>
+								<?php endforeach; ?>
+
+							</div>
 
 						</div>
-
+						<?php endforeach; ?>
 					</div>
+
+				</div>
 				<?php endforeach; ?>
 
 			</div>
@@ -140,7 +196,7 @@ foreach ( $kielet as $k ) {
 						<form>
 							<label class="w-100"><?= $lang->LABEL ?>
 								<textarea wrap="soft" rows="20"
-								          class="d-block w-100"><?= $json_files[$k->lang] ?></textarea>
+								          class="d-block w-100"><?= $json_files[ $k->lang ] ?></textarea>
 							</label>
 							<input type="submit" value="<?= $lang->SAVE ?>"
 							       class="btn-primary d-block w-100 lang-json-submit">
