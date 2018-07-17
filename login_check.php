@@ -43,6 +43,15 @@ function beginning_user_checks( User $user, string $user_password ) {
 	}
 }
 
+session_start();
+
+// Already logged in
+if ( $_GET['redir_to_frontpage'] and $_SESSION['id'] ) {
+	$fp_redir = ($_SESSION['admin']) ? "Location:/admin/" : "Location:/client/";
+	header( $fp_redir );
+	exit();
+}
+
 if ( empty( $_POST[ "mode" ] ) ) {
 	header( "Location:index.php?redir=10" );
 	exit(); // Not logged in
@@ -61,7 +70,6 @@ $password = (isset( $_POST[ "salasana" ] ) && strlen( $_POST[ "salasana" ] ) < 3
 	: '';
 
 if ( $mode === "login" ) {
-	session_start();
 	session_regenerate_id( true );
 
 	// Haetaan käyttäjän tiedot
@@ -97,6 +105,7 @@ if ( $mode === "login" ) {
 
 		$_SESSION[ 'id' ] = (int)$user->id;
 		$_SESSION[ 'yritys_id' ] = (int)$user->yritys_id;
+		$_SESSION[ 'admin' ] = $yritys->isAdmin();
 
 		$config = parse_ini_file( "./config/config.ini.php" );
 		$_SESSION[ 'indev' ] = (bool)$config[ 'indev' ];
