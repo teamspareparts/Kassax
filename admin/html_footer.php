@@ -20,7 +20,9 @@
 
 			<p class="dropdown-item">Hello world!</p>
 			<hr>
-			<a class="dropdown-item" href="../tietokanta/lang_install.php">Language install</a>
+			<a class="dropdown-item" href="../tietokanta/lang_install.php?redir=<?= $_SERVER['REQUEST_URI'] ?>">
+				Language install
+			</a>
 			<a class="dropdown-item" href="./languages.php">Language settings</a>
 			<hr>
 

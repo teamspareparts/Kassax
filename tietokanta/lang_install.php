@@ -40,3 +40,26 @@ foreach ( $languages as $lang ) {
 
 	$db->query( $sql, $values );
 }
+?>
+
+<html>
+<body style="font-size: 2em; padding: 2em 0 0 2em;">
+	<p>
+		Kielet asennettu onnistuneesti.
+	</p>
+	<p>
+		Linkit takaisin:
+	</p>
+	<p>
+		<a href="../admin/">Etusivu</a>
+	</p>
+	<p>
+		<a href="../admin/languages.php">Language settings</a>
+	</p>
+	<?php if (!empty($_GET['redir'])) : ?>
+	<p>
+		<a href="../admin/<?= $_GET['redir'] ?>">Redirect edelliselle sivulle</a>
+	</p>
+	<?php endif; ?>
+</body>
+</html>
