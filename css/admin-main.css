@@ -108,6 +108,13 @@ hr {
 	Forms
 ********************************************/
 
+label.form-group {
+	display: block;
+}
+label.form-group > span.label {
+	display: inline-block;
+	margin-bottom: .5rem;
+}
 .required:after { /* Lisää punaisen asteriskin vaadittujen kenttien kohdalle */
 	content:" *";
 	color: red;
@@ -130,3 +137,4 @@ hr {
 	height: 2em;
 	margin-top: 1em;
 }
+
