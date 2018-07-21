@@ -73,7 +73,7 @@ $lang_strings = LanguageController::getKaikkiTekstit( $db , $kielet , $ad_cl , $
 			</nav>
 
 			<!-- DB LANG TAB CONTENTS -->
-			<div class="tab-content" id="nav-tabDBContent" style="border-top: 1px solid #2f5cad">
+			<div class="tab-content" style="border-top: 1px solid #2f5cad">
 
 				<?php foreach ( $kielet as $k ) : ?>
 				<div class="tab-pane fade bg-white" id="nav-db-<?= $k->lang ?>"
@@ -96,7 +96,7 @@ $lang_strings = LanguageController::getKaikkiTekstit( $db , $kielet , $ad_cl , $
 					</nav>
 
 					<!-- DB LANG ADMIN/CLIENT TAB CONTENTS -->
-					<div class="tab-content" id="nav-tabDB_adCl_Content" style="border-top: 1px solid #2f5cad">
+					<div class="tab-content" style="border-top: 1px solid #2f5cad">
 
 						<?php foreach ( $ad_cl as $a_c => $value ) : ?>
 						<div class="tab-pane fade bg-white" id="nav-db-<?= $k->lang ?>-<?= $a_c ?>"
@@ -120,7 +120,7 @@ $lang_strings = LanguageController::getKaikkiTekstit( $db , $kielet , $ad_cl , $
 							</nav>
 
 							<!-- PAGES TAB CONTENTS -->
-							<div class="tab-content" id="nav-tabDBpageContent">
+							<div class="tab-content">
 
 								<?php foreach ( $sivut[ $a_c ] as $s ) : ?>
 								<div class="tab-pane fade bg-white"
@@ -128,30 +128,36 @@ $lang_strings = LanguageController::getKaikkiTekstit( $db , $kielet , $ad_cl , $
 								     role="tabpanel"
 								     aria-labelledby="nav-db-<?= $k->lang ?>-<?= $a_c ?>-<?= $s->sivu ?>-tab">
 
-									<?php foreach (
-										$lang_strings[ $k->lang ][ $a_c ][ $s->sivu ] as $ss ) :
-										?>
+									<?php foreach ( $lang_strings[ $k->lang ][ $a_c ][ $s->sivu ] as $txt ) : ?>
+									<form method="post" style="padding: .5em">
+										<input type="hidden" name="lang" value="<?= $k->lang ?>">
+										<input type="hidden" name="admin" value="<?= $a_c ?>">
+										<input type="hidden" name="page" value="<?= $s->sivu ?>">
+										<input type="hidden" name="type" value="<?= $txt->tyyppi ?>">
 
-									<form method="post">
-										<div class="form-group">
-											<label>
-												<?= $ss->tyyppi ?>
+										<div class="d-flex flex-row">
+											<div class="d-flex flex-column" style="padding: .5em; min-width: 20%">
+												<span><?= $txt->tyyppi ?></span>
+												<button type="submit">
+													<i class="material-icons">autorenew</i>
+												</button>
+											</div>
 
-												<?php if ( count( $ss->tyyppi ) < 20 ) : ?>
-												<input type="text" placeholder=" <?= $ss->tyyppi ?> "
-												       class="form-control d-block" minlength="1"
-												       maxlength="255">
-												<?php else : ?>
-												<textarea wrap="soft" rows="3" class="form-control">
-												<?= $ss->teksti ?>
-												</textarea>
-												<?php endif; ?>
-
-											</label>
-											<input type="submit" value="Päivitä">
+											<div class="d-flex flex-fill">
+												<textarea wrap="soft" rows="2" minlength="1"
+												          class="form-control" title="<?= $txt->tyyppi ?>"><?=
+													$txt->teksti
+												?></textarea>
+											</div>
 										</div>
+
 									</form>
 									<?php endforeach; ?>
+
+									<button type="submit" class="btn-primary w-100"
+									        style="height: 2.5em">
+										<i class="material-icons">add</i>
+									</button>
 
 								</div>
 								<?php endforeach; ?>
@@ -194,12 +200,13 @@ $lang_strings = LanguageController::getKaikkiTekstit( $db , $kielet , $ad_cl , $
 					<div class="tab-pane fade bg-white" id="nav-json-<?= $k->lang ?>"
 					     role="tabpanel" aria-labelledby="nav-json-<?= $k->lang ?>-tab">
 						<form>
-							<label class="w-100"><?= $lang->LABEL ?>
-								<textarea wrap="soft" rows="20"
-								          class="d-block w-100"><?= $json_files[ $k->lang ] ?></textarea>
-							</label>
-							<input type="submit" value="<?= $lang->SAVE ?>"
-							       class="btn-primary d-block w-100 lang-json-submit">
+							<textarea wrap="soft" rows="20" class="d-block w-100" title="JSON file text"><?=
+								$json_files[ $k->lang ]
+							?></textarea>
+
+							<button type="submit" class="btn-primary w-100" style="height: 2.5em">
+								<i class="material-icons">save</i>
+							</button>
 						</form>
 					</div>
 				<?php endforeach; ?>
@@ -215,6 +222,14 @@ $lang_strings = LanguageController::getKaikkiTekstit( $db , $kielet , $ad_cl , $
 <?php require 'html_footer.php'; ?>
 
 <script>
+	$(document).on('submit', 'form', function(e) {
+		e.preventDefault();
+
+		console.log(e);
+		console.log(e.target);
+
+		return false;
+	});
 </script>
 
 </body>
