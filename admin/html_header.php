@@ -45,7 +45,7 @@
 					   aria-haspopup="true" aria-expanded="false">
 
 						<i class="material-icons">
-							more_vert
+							cake
 						</i>
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
