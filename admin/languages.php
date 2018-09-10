@@ -200,7 +200,9 @@ $lang_strings = LanguageController::getKaikkiTekstit( $db , $kielet , $ad_cl , $
 					<div class="tab-pane fade bg-white" id="nav-json-<?= $k->lang ?>"
 					     role="tabpanel" aria-labelledby="nav-json-<?= $k->lang ?>-tab">
 						<form>
-							<textarea wrap="soft" rows="20" class="d-block w-100" title="JSON file text"><?=
+							<input type="hidden" name="lang" value="<?= $k->lang ?>">
+
+							<textarea name="jsontxt" wrap="soft" rows="20" class="d-block w-100" title="JSON file text"><?=
 								$json_files[ $k->lang ]
 							?></textarea>
 
@@ -225,8 +227,13 @@ $lang_strings = LanguageController::getKaikkiTekstit( $db , $kielet , $ad_cl , $
 	$(document).on('submit', 'form', function(e) {
 		e.preventDefault();
 
-		console.log(e);
-		console.log(e.target);
+		let formData = new FormData(e.target);
+
+		// send formData with... something? Somewhere
+
+		// Receive bool
+
+		// Toastr response
 
 		return false;
 	});
